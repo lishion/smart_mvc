@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smart-root>
+
+
+        <packages-to-scan>
+            <package>com.smart.framework.control</package>
+        </packages-to-scan>
+       <resource>
+           <postfix>jpg</postfix>
+       </resource>
+
+
+       <!-- <beans manage-type="prototype">
+            &lt;!&ndash;配置控制器&ndash;&gt;
+            <controler>
+                <item name="testAction">com.smart.framework.control.TestAction</item>
+                <item name="testAction">com.smart.framework.control.TestAction1</item>
+
+
+            </controler>
+
+
+            &lt;!&ndash;配置模型&ndash;&gt;
+            <model>
+                <item name="testAction1">com.smart.framework.control.TestIoc</item>
+            </model>
+
+            &lt;!&ndash;配置服务&ndash;&gt;
+            <service>
+
+            </service>
+        </beans>
+
+        &lt;!&ndash;配置mvc映射以及返回类型&ndash;&gt;
+        <mvc>
+            &lt;!&ndash;bean 表示Controler 一个bean可以添加许多映射&ndash;&gt;
+            <request-map>
+                <bean name="e">
+                        &lt;!&ndash;一个route表示一个映射&ndash;&gt;
+                        <route url="/aaa" method="/aaa">ddddd</route>
+                </bean>
+            </request-map>
+        </mvc>-->
+
+</smart-root>
