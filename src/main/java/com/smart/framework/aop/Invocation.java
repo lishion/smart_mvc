@@ -21,6 +21,10 @@ public class Invocation {
     private Class clazz;
     private Interceptors interceptors;
     private int index;
+    private Object result;
+    private Class[] interceptorChain;
+
+
     public Invocation(Interceptors interceptors){
         this.interceptors = interceptors;
     }
@@ -37,9 +41,9 @@ public class Invocation {
         this.method = method;
     }
 
-    private List<Class<? extends Interceptor>> invocationChain;
 
-    private Object result;
+
+
     public Object getResult() {
         return result;
     }
@@ -57,14 +61,15 @@ public class Invocation {
     public void setObjects(Object[] objects) {
         this.objects = objects;
     }
-    public void setInvocationChain(List<Class<? extends Interceptor>> invocationChain) {
-        this.invocationChain = invocationChain;
+
+    public void setInterceptorChain(Class[] interceptorChain) {
+        this.interceptorChain = interceptorChain;
     }
 
     public void invoke() throws Throwable {
 
-        if(index < invocationChain.size()){
-            Class<? extends Interceptor> clazz = invocationChain.get(index++);
+        if(index < interceptorChain.length){
+             Class<? extends Interceptor> clazz = interceptorChain[index++];
              Interceptor interceptor = interceptors.get(clazz);
              interceptor.intercept(this);
         }

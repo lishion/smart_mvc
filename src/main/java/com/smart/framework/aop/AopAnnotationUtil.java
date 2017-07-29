@@ -1,9 +1,8 @@
 package com.smart.framework.aop;
 
 import com.smart.framework.annotation.*;
-import com.smart.framework.cache.DataPool;
-import com.smart.framework.cache.DataPoolItem;
-import com.smart.framework.config.FrameWorkConfig;
+import com.smart.framework.config.FrameworkConfig;
+import com.smart.framework.core.SmartMVC;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.*;
@@ -25,15 +24,11 @@ public class AopAnnotationUtil {
     }
 
     private AnnotatedElement clazz,method;
-    private Class<? extends Interceptor> ci,si;
     private List<Class<? extends Interceptor>> classesGet,classesClean;
-
+    private FrameworkConfig config = SmartMVC.frameWorkConfig;
     public AopAnnotationUtil(AnnotatedElement clazz , AnnotatedElement method){
-        FrameWorkConfig frameWorkConfig = (FrameWorkConfig) DataPool.need(DataPoolItem.frameworkConfig);
         this.clazz = clazz;
         this.method = method;
-        ci = frameWorkConfig.getInterceptors().getControlInterceptorsClass();
-        si = frameWorkConfig.getInterceptors().getServiceInterceptorsClass();
         classesGet = new LinkedList<>();
         classesClean = new LinkedList<>();
     }
@@ -93,8 +88,15 @@ public class AopAnnotationUtil {
      * 获得全局拦截器
      */
     private void addGlobal(){
-        if(ci!=null && BeanType.isControler(clazz)){classesGet.add(ci);}
-        if(si!=null && BeanType.isService(clazz)){classesGet.add(si);}
+        Interceptors interceptors = config.getInterceptors();
+
+        if(interceptors.getControlInter().size()>=1 && BeanType.isControler(clazz)){
+            classesGet.addAll(interceptors.getControlInter().keySet());
+        }
+
+        if(interceptors.getServiceInter().size()>=1 && BeanType.isService(clazz)){
+            classesGet.addAll(interceptors.getServiceInter().keySet());
+        }
     }
 
     /**

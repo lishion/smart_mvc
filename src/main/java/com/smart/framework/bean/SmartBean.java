@@ -1,6 +1,8 @@
 package com.smart.framework.bean;
 
 import com.smart.framework.annotation.BeanType;
+import com.smart.framework.aop.Interceptor;
+import com.smart.framework.aop.Interceptors;
 
 
 import java.lang.reflect.Field;
@@ -17,6 +19,7 @@ public class SmartBean {
     private Class<?> clazz = null;
     private Class<?> proxyClazz = null;
     private Object instance = null;
+    private Interceptor[] interceptors = null;
 
     public Class<?> getProxyClazz() {
         return proxyClazz;

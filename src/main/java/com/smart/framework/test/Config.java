@@ -1,8 +1,6 @@
 package com.smart.framework.test;
 
-import com.smart.framework.aop.Interceptor;
 import com.smart.framework.aop.Interceptors;
-import com.smart.framework.config.FrameWorkConfig;
 import com.smart.framework.config.NotFindPage;
 import com.smart.framework.config.SmartConfig;
 import com.smart.framework.interptor.ControlerPrinter;
@@ -25,7 +23,8 @@ public class Config implements SmartConfig {
 
     @Override
     public void setGlobalInterceptor(Interceptors i) {
-        i.setGlobalControlInterceptors(new ControlerPrinter());
+
+        i.setControlInter(new ControlerPrinter());
     }
 
     @Override

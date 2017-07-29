@@ -1,9 +1,5 @@
 package com.smart.framework.bean;
 
-import com.smart.framework.annotation.*;
-import com.smart.framework.aop.ProxyCreator;
-
-
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,20 +15,20 @@ public class BeansContainer {
 
     /**
      * 从class集合中生成bean容器
-     * @param classes:class集合
+     * @param classContainer:class集合类
      * @return bean容器
      */
-    public void fromClassess( Set<Class<?>> classes){
+    public void load( ClassContainer classContainer) throws Exception {
 
-        classes.forEach(clazz->{
-            BeanType beanType = BeanType.Component;
-            if(clazz.isAnnotationPresent(Bean.class)){
-                beanType =  clazz.getAnnotation(Bean.class).value();
+
+        try {
+            for(Class<?> clazz:classContainer.getBeanClass()){
+                smartBeans.add( BeanFactory.build(clazz) );
             }
-            SmartBean smartBean = BeanFactory.build(clazz,beanType);
-            smartBeans.add(smartBean);
-        });
-
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("load beans error!!!");
+        }
     }
 
     public Set<SmartBean> getSmartBeans() {

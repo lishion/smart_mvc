@@ -21,7 +21,7 @@ public class TestAction {
     @Inject(TestIoc.class)//需要自动注入
     private TestIoc testIoc = null;
 
-    @Before(GCInterptor.class)//拦截器
+
     @Route(value = "hello",method = RequestType.GET)//路由
     public ModelAndView test1(){
         System.out.println(testIoc);
@@ -32,6 +32,7 @@ public class TestAction {
         return mv;//返回视图和数据
     }
 
+
     @Route("world")
     public Map<String ,Object> test(@Var("x") String s, HttpServletRequest request){
 
@@ -40,9 +41,9 @@ public class TestAction {
         map.put("x",1);
         map.put("y","2");
         map.put("z","hello world");
-                map.put("s",s);
+        map.put("s",s);
 
-                return map;//只返回数据
-                }
+        return map;//只返回数据
+    }
 
-                }
+}

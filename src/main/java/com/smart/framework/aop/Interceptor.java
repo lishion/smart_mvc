@@ -5,6 +5,6 @@ package com.smart.framework.aop;
  */
 public interface Interceptor  {
 
-    public void intercept(Invocation iv) throws Throwable;
+     void intercept(Invocation iv) throws Throwable;
 
 }

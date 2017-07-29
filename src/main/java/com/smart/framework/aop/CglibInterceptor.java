@@ -1,8 +1,8 @@
 package com.smart.framework.aop;
 
-import com.smart.framework.cache.DataPool;
-import com.smart.framework.cache.DataPoolItem;
-import com.smart.framework.config.FrameWorkConfig;
+
+import com.smart.framework.config.FrameworkConfig;
+import com.smart.framework.core.SmartMVC;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -14,8 +14,6 @@ import java.lang.reflect.Method;
  */
 public class CglibInterceptor implements MethodInterceptor {
 
-
-
     public <T> T createProxy(Class<T> clazz){
         return  (T)Enhancer.create(clazz,this);
     }
@@ -23,10 +21,11 @@ public class CglibInterceptor implements MethodInterceptor {
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
 
-        InvocationChain invocationChain = (InvocationChain) DataPool.need(DataPoolItem.invocationChain);
-        FrameWorkConfig frameWorkConfig = (FrameWorkConfig) DataPool.need(DataPoolItem.frameworkConfig);
+        InterceptorChain interceptorChain = SmartMVC.interceptorChain;
+        FrameworkConfig frameWorkConfig = SmartMVC.frameWorkConfig;
+
         Invocation invocation = new Invocation(frameWorkConfig.getInterceptors());
-        invocation.setInvocationChain(invocationChain.get(method.getClass()));
+        invocation.setInterceptorChain( interceptorChain.get(method) );
         invocation.setObject(o);
         invocation.setClazz(method.getDeclaringClass());
         invocation.setProxyMethod(methodProxy);

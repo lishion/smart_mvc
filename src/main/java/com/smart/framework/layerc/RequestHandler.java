@@ -1,6 +1,6 @@
 package com.smart.framework.layerc;
 
-import com.smart.framework.utils.ReflectionUtil;
+import com.smart.framework.utils.ReflectionKit;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -31,7 +31,7 @@ public class RequestHandler {
 
         Object o = null;
         try {
-            o = ReflectionUtil.invokeMethod(handerObject,handerMethod,args);
+            o = ReflectionKit.invokeMethod(handerObject,handerMethod,args);
         }catch (Exception e){
             e.printStackTrace();
             throw  new Exception("handle request error!!!");

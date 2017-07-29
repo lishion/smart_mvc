@@ -1,8 +1,8 @@
 package com.smart.framework.layerm;
 
 import com.smart.framework.annotation.BeanType;
-import com.smart.framework.utils.ClassUtil;
-import com.smart.framework.utils.ReflectionUtil;
+import com.smart.framework.utils.ClassKit;
+import com.smart.framework.utils.ReflectionKit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,19 +20,19 @@ public class DefultConverter implements ModelConverter {
         }
         Object o = null;
         try {
-               o = ReflectionUtil.getObject(clazz);
+               o = ReflectionKit.getObject(clazz);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new Exception("bind data to Object with class"+ clazz.getName()+"error!!");
             }
         Object oo = o;
 
-        ClassUtil.visitField(clazz, field -> {
+        ClassKit.visitField(clazz, field -> {
             Converter converter = ConverterContainer.getUserconverter( field.getType() );//首先寻找用户自定义的转换器
             if( BeanType.isModel(clazz) ){//如果定义的变量中有Model注解的变量 则需要递归赋值
                    converter = converter == null ? this : converter;//如果没有找到用户自定义的转换器 则使用默认转换器
                try {
-                   ReflectionUtil.setFiled( oo ,field,converter.convert( field.getType(),t ) );
+                   ReflectionKit.setFiled( oo ,field,converter.convert( field.getType(),t ) );
                }
                catch (Exception e){
                    System.err.println("set filed error when bind data!!!");
@@ -47,7 +47,7 @@ public class DefultConverter implements ModelConverter {
                     s = field.getType() == String.class ? "null" : "0";//避免空指针
                 }
                 try {
-                    ReflectionUtil.setFiled( oo ,field,converter.convert( field.getType(),t ) );
+                    ReflectionKit.setFiled( oo ,field,converter.convert( field.getType(),t ) );
                 }
                 catch (Exception e){
                     System.err.println("set filed error when bind data!!!");

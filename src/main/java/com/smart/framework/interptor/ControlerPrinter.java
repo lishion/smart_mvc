@@ -14,24 +14,28 @@ public class ControlerPrinter implements Interceptor {
     public void intercept(Invocation iv) throws Throwable {
 
         Method method = iv.getMethod();
-        System.out.println("----------smart-mvc start----------");
-        System.out.println("controler:" + iv.getClazz().getName());
-        System.out.print("args:");
+        System.out.println("| - - - - - - - - - smart-mvc start - - - - - - - - - -");
+        System.out.println("| controler:" + iv.getClazz().getName());
+        System.out.print("| args:");
         Object[] parameters = iv.getArgs();
 
         if(parameters.length<1){
-            System.out.println("no args");
+            System.out.println("|no args");
         }else{
             for(Object parameter:parameters){
-                System.out.print(parameter);
+                System.out.print(parameter.getClass().getSimpleName());
                 System.out.print(" ");
             }
         }
+        System.out.println();
+        System.out.println();
 
         iv.invoke();
+        System.out.println();
 
-        System.out.println("return:" + iv.getResult());
-        System.out.println("----------smart-mvc end----------");
+
+        System.out.println("| return:" + iv.getResult().getClass().getSimpleName());
+        System.out.println("| - - - - - - - - - smart-mvc start - - - - - - - - - -");
 
     }
 }

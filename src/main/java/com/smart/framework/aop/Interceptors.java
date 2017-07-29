@@ -10,45 +10,41 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Interceptors {
 
     private Map<Class<? extends Interceptor>,Interceptor> map;
-    private Interceptor globalControlInterceptor = null;
-    private Interceptor globalServiceInterceptor = null;
-    private Class<? extends Interceptor> controlInterceptorClass = null;
-    private Class<? extends Interceptor> serviceInterceptorClass = null;
+
+    private Map<Class<? extends Interceptor>,Interceptor> controlInter = null;
+    private Map<Class<? extends Interceptor>,Interceptor> serviceInter = null;
+
+    public Map<Class<? extends Interceptor>, Interceptor> getControlInter() {
+        return controlInter;
+    }
+
+    public Map<Class<? extends Interceptor>, Interceptor> getServiceInter() {
+        return serviceInter;
+    }
+
     public Interceptors(){
+
         map = new ConcurrentHashMap<>();
-    }
-    public Class<? extends Interceptor> getControlInterceptorsClass() {
-        return globalControlInterceptor==null ? null : globalControlInterceptor.getClass();
+        controlInter = new ConcurrentHashMap<>();
+        serviceInter = new ConcurrentHashMap<>();
+
     }
 
-    public Class<? extends Interceptor> getServiceInterceptorsClass() {
-        return  globalServiceInterceptor==null ? null : globalServiceInterceptor.getClass();
+    public void setControlInter(Interceptor  i){
+        if(i==null){
+            throw new RuntimeException("the interceptor can not be null!!");
+        }
+        controlInter.put(i.getClass(),i);
+        map.put(i.getClass(),i);
     }
 
-    public Map<Class<? extends Interceptor>, Interceptor> getMap() {
-        return map;
+    public void setServiceInter(Interceptor i){
+        if(i==null){
+            throw new RuntimeException("the interceptor can not be null!!");
+        }
+        serviceInter.put(i.getClass(),i);
+        map.put(i.getClass(),i);
     }
-
-    public void setMap(Map<Class<? extends Interceptor>, Interceptor> map) {
-        this.map = map;
-    }
-
-    public Interceptor getGlobalControlInterceptors() {
-        return globalControlInterceptor;
-    }
-
-    public void setGlobalControlInterceptors(Interceptor globalControlInterceptors) {
-       this.globalControlInterceptor = globalControlInterceptors;
-    }
-
-    public Interceptor getGlobalServiceInterceptors() {
-        return globalServiceInterceptor;
-    }
-
-    public void setGlobalServiceInterceptors(Interceptor globalServiceInterceptors) {
-        this.globalServiceInterceptor = globalServiceInterceptors;
-    }
-
 
     public  Interceptor get(Class<? extends Interceptor> clazz){
           return map.get(clazz);
