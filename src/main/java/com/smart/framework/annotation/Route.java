@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 
 public @interface Route {
     String value()  ;
-    String method() default RequestType.GET;
+    String method() default RequestType.POST;
 }
