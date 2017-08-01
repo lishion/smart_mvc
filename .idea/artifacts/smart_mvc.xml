@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="smart_mvc">
+    <output-path>$PROJECT_DIR$/out/artifacts/smart_mvc</output-path>
+    <root id="root" />
+  </artifact>
+</component>

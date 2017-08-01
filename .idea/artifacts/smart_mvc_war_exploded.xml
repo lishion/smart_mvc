@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="smart_mvc:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/smart_mvc_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="smart_mvc/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="smart_mvc" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.4" />
+          <element id="library" level="project" name="Maven: cglib:cglib:3.2.5" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.2" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="smart_mvc:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/smart_mvc_jar</output-path>
+    <root id="archive" name="smart_mvc.jar">
+      <element id="module-output" name="smart_mvc" />
+    </root>
+  </artifact>
+</component>
