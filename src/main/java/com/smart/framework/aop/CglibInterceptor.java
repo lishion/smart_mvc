@@ -18,6 +18,15 @@ public class CglibInterceptor implements MethodInterceptor {
         return  (T)Enhancer.create(clazz,this);
     }
 
+    /**
+     * cglib方法拦截器
+     * @param o
+     * @param method
+     * @param objects
+     * @param methodProxy
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
 

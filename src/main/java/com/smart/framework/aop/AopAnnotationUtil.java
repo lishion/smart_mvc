@@ -34,7 +34,7 @@ public class AopAnnotationUtil {
     }
 
     /**
-     *
+     * 获取固定方法上拦截器class合集
      * @return 该方法包含的所有拦截器class集合
      */
     public List<Class<? extends Interceptor>> getAopClass(){

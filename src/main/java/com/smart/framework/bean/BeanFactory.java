@@ -11,10 +11,17 @@ import com.smart.framework.utils.ReflectionKit;
 import java.lang.reflect.Method;
 
 /**
+ * Bean工厂类
  * Created by Lishion on 2017/7/22.
  */
 public class BeanFactory {
 
+    /**
+     * 根据class产生对应的bean实例
+     * @param clazz
+     * @return bean实例
+     * @throws Exception
+     */
     public  static SmartBean build(Class<?> clazz) throws Exception {
 
         BeanType beanType = BeanType.Component;
@@ -32,6 +39,12 @@ public class BeanFactory {
         return smartBean;
     }
 
+    /**
+     * 根据class 产生对应的实例
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
     private static Object createInstance(Class<?> clazz) throws Exception {
 
         CglibInterceptor cglibInterceptor = new CglibInterceptor();

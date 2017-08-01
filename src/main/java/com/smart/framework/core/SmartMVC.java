@@ -32,8 +32,13 @@ public class SmartMVC {
     public static final RequestMap requestMap = new RequestMap();
 
 
-
+    /**
+     * 从web.xml中得到配置类
+     * @return 配置类实例
+     * @throws Exception
+     */
     public SmartConfig getConfig() throws Exception {
+        //获取配置类
         String className =  context.getInitParameter("smartConfig");
         if(className==null) {
             throw new Exception("can't not find config parameter!");
@@ -48,14 +53,15 @@ public class SmartMVC {
         return smartConfig;
     }
 
+    //框架初始化
     public void start() throws Exception{
 
-
-        frameWorkConfig.load(getConfig());
-        classContainer.load(frameWorkConfig);
-        interceptorChain.load(classContainer);
-        beansContainer.load(classContainer); IOCKit.inject(beansContainer);
-        requestMap.load(beansContainer);
+        frameWorkConfig.load(getConfig());//加载配置
+        classContainer.load(frameWorkConfig);//从配置中加载class容器
+        interceptorChain.load(classContainer);//从class容器中加载拦截器
+        beansContainer.load(classContainer);//从class容器中加载bean容器
+        IOCKit.inject(beansContainer);//依赖注入
+        requestMap.load(beansContainer);//从bean容器中加载控制器映射
     }
 
 

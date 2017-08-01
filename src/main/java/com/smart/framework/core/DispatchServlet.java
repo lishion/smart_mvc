@@ -22,7 +22,10 @@ public class DispatchServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String contextPath = req.getContextPath();//得到项目路径
-        String path = req.getRequestURL().toString().split(contextPath)[1];//得到请求路径
+        String requestUrl =  req.getRequestURL().toString();
+        String path =  requestUrl.substring(requestUrl.indexOf(contextPath)+contextPath.length(),requestUrl.length());
+
+
         String methodStr = req.getMethod().toUpperCase();//将请求方法转换为大写
 
         RequestMap requestMap = SmartMVC.requestMap;
@@ -31,6 +34,10 @@ public class DispatchServlet extends HttpServlet {
 
         if(handler==null){
             System.err.println("找不到对应请求:"+path+",方法为:"+methodStr+"的处理器。");
+            if(config.getNotFindPage()==null){
+                System.err.println("找不到失败重定向页面!");
+                return;
+            }
             req.getRequestDispatcher(config.getNotFindPage()).forward(req,resp);
         }
         try {

@@ -15,7 +15,7 @@ public class DefultConverter implements ModelConverter {
     @Override
     public Object convert(Class<?> clazz, HttpServletRequest t) throws Exception {
 
-        if(BeanType.isModel(clazz)){
+        if(!BeanType.isModel(clazz)){
             throw new Exception("can't bind data to type:"+clazz.getTypeName()+" without Model annotaion!");
         }
         Object o = null;
@@ -29,7 +29,7 @@ public class DefultConverter implements ModelConverter {
 
         ClassKit.visitField(clazz, field -> {
             Converter converter = ConverterContainer.getUserconverter( field.getType() );//首先寻找用户自定义的转换器
-            if( BeanType.isModel(clazz) ){//如果定义的变量中有Model注解的变量 则需要递归赋值
+            if( BeanType.isModel(field.getType()) ){//如果定义的变量中有Model注解的变量 则需要递归赋值
                    converter = converter == null ? this : converter;//如果没有找到用户自定义的转换器 则使用默认转换器
                try {
                    ReflectionKit.setFiled( oo ,field,converter.convert( field.getType(),t ) );
@@ -47,7 +47,7 @@ public class DefultConverter implements ModelConverter {
                     s = field.getType() == String.class ? "null" : "0";//避免空指针
                 }
                 try {
-                    ReflectionKit.setFiled( oo ,field,converter.convert( field.getType(),t ) );
+                    ReflectionKit.setFiled( oo ,field,converter.convert( field.getType(),s ) );
                 }
                 catch (Exception e){
                     System.err.println("set filed error when bind data!!!");

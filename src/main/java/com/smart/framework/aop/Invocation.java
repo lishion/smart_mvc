@@ -41,9 +41,6 @@ public class Invocation {
         this.method = method;
     }
 
-
-
-
     public Object getResult() {
         return result;
     }
@@ -66,6 +63,8 @@ public class Invocation {
         this.interceptorChain = interceptorChain;
     }
 
+
+    @SuppressWarnings("unchecked")
     public void invoke() throws Throwable {
 
         if(index < interceptorChain.length){
