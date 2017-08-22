@@ -1,5 +1,7 @@
 package com.smart.framework.utils;
 
+import com.smart.framework.annotation.Bean;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

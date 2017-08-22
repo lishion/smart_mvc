@@ -36,7 +36,7 @@ public class ClassNameKit {
     }
 
     /**
-     * 将包名转换为时间的文件目录
+     * 将包名转换为实际的文件目录
      * @param topPackageName:包名
      * @return 转换后的文件目录
      */

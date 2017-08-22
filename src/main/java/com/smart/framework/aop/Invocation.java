@@ -67,8 +67,8 @@ public class Invocation {
     @SuppressWarnings("unchecked")
     public void invoke() throws Throwable {
 
-        if(index < interceptorChain.length){
-             Class<? extends Interceptor> clazz = interceptorChain[index++];
+        if(index < interceptorChain.length ){
+             Class<? extends Interceptor> clazz = interceptorChain[ index++ ] ;
              Interceptor interceptor = interceptors.get(clazz);
              interceptor.intercept(this);
         }

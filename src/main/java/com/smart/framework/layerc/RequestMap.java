@@ -30,6 +30,7 @@ public class RequestMap {
         return null;
     }
 
+
     public void load(BeansContainer beansContainer){
         beansContainer.visit(smartBean -> {
             smartBean.visitMethod((clazz, method) -> {
@@ -38,28 +39,33 @@ public class RequestMap {
                 Route methodRoute = null;
                 String url = "";
                 String submitMethod ="";
+
                 if(clazz.isAnnotationPresent(Route.class)){
                     classRoute = clazz.getAnnotation(Route.class);
                     url += classRoute.value();
                     submitMethod = classRoute.method();
                 }
+
                 if(method.isAnnotationPresent(Route.class)){
                     methodRoute = method.getAnnotation(Route.class);
                     url += methodRoute.value();
                     submitMethod = methodRoute.method();
                 }
+
                 RequestRoute route = new RequestRoute(url,submitMethod);
                 RequestHandler handler = null;
 
                 if(smartBean.getProxyClazz()!=null){
                     try {
-                        handler = new  RequestHandler(smartBean.getInstance(),smartBean.getProxyMethod(method));
+
+                        handler = new  RequestHandler(smartBean.getProxyClazz(),smartBean.getProxyMethod(method));
+
                     }
                     catch (NoSuchMethodException e){
                         e.printStackTrace();
                     }
                 }else{
-                    handler = new RequestHandler(smartBean.getInstance(),method);
+                    handler = new RequestHandler(smartBean.getClazz(),method);
                 }
                 handler.setParameters(method.getParameters());
                 requestMap.put(route,handler);

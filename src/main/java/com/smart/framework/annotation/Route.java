@@ -1,5 +1,7 @@
 package com.smart.framework.annotation;
 
+import com.smart.framework.utils.Constants;
+
 import java.lang.annotation.*;
 
 /**
@@ -11,5 +13,5 @@ import java.lang.annotation.*;
 
 public @interface Route {
     String value()  ;
-    String method() default RequestType.POST;
+    String method() default Constants.EMPTY_STR;
 }

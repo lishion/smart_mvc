@@ -49,7 +49,7 @@ public class ReflectionKit {
             return result;
         }catch (IllegalAccessException|InvocationTargetException e){
             e.printStackTrace();
-          throw new Exception("invoke method:" + method.getName() + " error!");
+          throw new Exception("invoke method: " + method.getName() + "() error!");
         }
     }
 
@@ -67,5 +67,6 @@ public class ReflectionKit {
             e.printStackTrace();
             throw new Exception("set filed:"+field.getName()+"in class:"+object.getClass().getName()+"error!!");
         }
+
     }
 }

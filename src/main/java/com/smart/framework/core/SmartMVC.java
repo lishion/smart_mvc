@@ -3,6 +3,7 @@ package com.smart.framework.core;
 import com.smart.framework.aop.InterceptorChain;
 import com.smart.framework.bean.BeansContainer;
 import com.smart.framework.bean.ClassContainer;
+import com.smart.framework.layerm.ConverterContainer;
 import com.smart.framework.utils.IOCKit;
 import com.smart.framework.config.FrameworkConfig;
 import com.smart.framework.config.SmartConfig;
@@ -30,7 +31,7 @@ public class SmartMVC {
     public static final BeansContainer beansContainer = new BeansContainer();
     public static final ClassContainer classContainer = new ClassContainer();
     public static final RequestMap requestMap = new RequestMap();
-
+    public static final ConverterContainer converterContainer = new ConverterContainer();
 
     /**
      * 从web.xml中得到配置类
@@ -58,6 +59,7 @@ public class SmartMVC {
 
         frameWorkConfig.load(getConfig());//加载配置
         classContainer.load(frameWorkConfig);//从配置中加载class容器
+
         interceptorChain.load(classContainer);//从class容器中加载拦截器
         beansContainer.load(classContainer);//从class容器中加载bean容器
         IOCKit.inject(beansContainer);//依赖注入

@@ -25,15 +25,19 @@ public class BeanFactory {
     public  static SmartBean build(Class<?> clazz) throws Exception {
 
         BeanType beanType = BeanType.Component;
+        boolean isSigleton = true;
         if(clazz.isAnnotationPresent(Bean.class)){
             beanType = clazz.getAnnotation(Bean.class).value();
+            isSigleton = clazz.getAnnotation(Bean.class).singleton();
         }
         Object instance = createInstance(clazz);
         SmartBean smartBean = new SmartBean();
         smartBean.setInstance( instance );
         smartBean.setClazz(clazz);
+        smartBean.setSingleton(isSigleton);
         if(instance.getClass() != clazz){//如果得到的class和原来的class不相等 则该类已经被代理
             smartBean.setProxyClazz(instance.getClass());
+            smartBean.setProxy(true);
         }
         smartBean.setBeanType( beanType );
         return smartBean;

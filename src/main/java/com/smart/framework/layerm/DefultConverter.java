@@ -1,6 +1,7 @@
 package com.smart.framework.layerm;
 
 import com.smart.framework.annotation.BeanType;
+import com.smart.framework.core.SmartMVC;
 import com.smart.framework.utils.ClassKit;
 import com.smart.framework.utils.ReflectionKit;
 
@@ -28,7 +29,8 @@ public class DefultConverter implements ModelConverter {
         Object oo = o;
 
         ClassKit.visitField(clazz, field -> {
-            Converter converter = ConverterContainer.getUserconverter( field.getType() );//首先寻找用户自定义的转换器
+
+            Converter converter = SmartMVC.converterContainer.getUserconverter( field.getType() );//首先寻找用户自定义的转换器
             if( BeanType.isModel(field.getType()) ){//如果定义的变量中有Model注解的变量 则需要递归赋值
                    converter = converter == null ? this : converter;//如果没有找到用户自定义的转换器 则使用默认转换器
                try {
@@ -41,9 +43,9 @@ public class DefultConverter implements ModelConverter {
             }
             else{
 
-                converter = converter == null ? ConverterContainer.getSimpleConverter( field.getType() ) : converter;//如果没有找到用户自定义的转换器 则使用简单转换器
+                converter = converter == null ? SmartMVC.converterContainer.getSimpleConverter( field.getType() ) : converter;//如果没有找到用户自定义的转换器 则使用简单转换器
                 String s = t.getParameter(field.getName());//从request中获取值
-                if( s==null ){
+                if( s == null ){
                     s = field.getType() == String.class ? "null" : "0";//避免空指针
                 }
                 try {

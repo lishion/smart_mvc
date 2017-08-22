@@ -15,9 +15,19 @@ import java.util.function.BiConsumer;
  */
 public class SmartBean {
 
-
     private Class<?> clazz = null;
     private Class<?> proxyClazz = null;
+    private boolean isSingleton;
+    private boolean isProxy = false;
+
+    public boolean isSingleton() {
+        return isSingleton;
+    }
+
+    public void setSingleton(boolean singleton) {
+        isSingleton = singleton;
+    }
+
     private Object instance = null;
     private Interceptor[] interceptors = null;
 
@@ -103,12 +113,25 @@ public class SmartBean {
                 '}';
     }
 
+    public boolean isProxy() {
+        return isProxy;
+    }
+
+    public void setProxy(boolean proxy) {
+        isProxy = proxy;
+    }
+
     /**
      * 通过未代理的方法得到经过代理的方法
      * @param method:未经代理的方法
      * @return 经过代理的方法
      */
+
     public Method getProxyMethod(Method method) throws NoSuchMethodException{
        return proxyClazz.getDeclaredMethod(method.getName(),method.getParameterTypes());
+    }
+
+    public Field getProxyField(Field field) throws NoSuchFieldException {
+        return proxyClazz.getDeclaredField(field.getName());
     }
 }

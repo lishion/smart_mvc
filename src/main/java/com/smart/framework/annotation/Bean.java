@@ -10,4 +10,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bean {
     BeanType value() default BeanType.Component;
+    boolean singleton() default true;
 }

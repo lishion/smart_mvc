@@ -20,7 +20,6 @@ public class BeansContainer {
      */
     public void load( ClassContainer classContainer) throws Exception {
 
-
         try {
             for(Class<?> clazz:classContainer.getBeanClass()){
                 smartBeans.add( BeanFactory.build(clazz) );
@@ -45,7 +44,7 @@ public class BeansContainer {
      */
     public SmartBean getBean(Class<?> clazz){
         for (SmartBean smartBean:smartBeans){
-            if(smartBean.getClazz() == clazz){
+            if(smartBean.getProxyClazz()==clazz || smartBean.getClazz() == clazz){
                 return smartBean;
             }
         }
