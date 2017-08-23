@@ -1,11 +1,5 @@
 package com.smart.framework.core;
 
-import com.smart.framework.aop.Interceptor;
-import com.smart.framework.aop.InterceptorBeanProcess;
-import com.smart.framework.aop.InterceptorChain;
-import com.smart.framework.aop.Invocation;
-import com.smart.framework.bean.BeanFactory;
-import com.smart.framework.bean.BeanProcessPreCallback;
 import com.smart.framework.bean.BeansContainer;
 import com.smart.framework.bean.ClassContainer;
 import com.smart.framework.layerm.ConverterContainer;
@@ -31,7 +25,7 @@ public class SmartMVC {
         this.context = context;
     }
 
-    public static final InterceptorChain interceptorChain = new InterceptorChain();
+
     public static final FrameworkConfig frameWorkConfig = new FrameworkConfig();
     public static final BeansContainer beansContainer = new BeansContainer();
     public static final ClassContainer classContainer = new ClassContainer();
@@ -65,7 +59,7 @@ public class SmartMVC {
         frameWorkConfig.load(getConfig());//加载配置
         classContainer.load(frameWorkConfig);//从配置中加载class容器
 
-        interceptorChain.load(classContainer);//从class容器中加载拦截器
+
         beansContainer.load(classContainer);//从class容器中加载bean容器
         IOCKit.inject(beansContainer);//依赖注入
         requestMap.load(beansContainer);//从bean容器中加载控制器映射

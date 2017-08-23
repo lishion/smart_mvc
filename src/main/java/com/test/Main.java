@@ -17,11 +17,7 @@ import java.lang.reflect.Method;
 @Bean(BeanType.Model)
 public class Main {
     public static void main(String[] args) throws Exception {
-        IBeanFactory beanFactory = new BeanFactory();
 
-        System.out.println(beanFactory.get(Action.class));
-        System.out.println(beanFactory.get(Action.class));
-        System.out.println(beanFactory.get(Action.class));
 
     }
 }

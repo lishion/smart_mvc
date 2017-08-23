@@ -4,13 +4,14 @@ import com.smart.framework.bean.BeanContext;
 import com.smart.framework.bean.IBeanFactory;
 import net.sf.cglib.proxy.MethodProxy;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 /**
  * Created by Lishion on 2017/7/19.
  */
 
-public class Invocation extends BeanContext {
+public class Invocation {
 
     private Object object;
     private MethodProxy proxyMethod;
@@ -19,17 +20,13 @@ public class Invocation extends BeanContext {
     private Class clazz;
     private int index = 0;
     private Object result;
-    private Class[] interceptors;
+    private Interceptor[] interceptorChain;
 
-    public Invocation(Class[] interceptors, IBeanFactory factory){
-        this.interceptors = interceptors;
-        this.setFactory(factory);
+    public Invocation(Interceptor[] interceptorChainCache){
+
+        this.interceptorChain = interceptorChainCache;
     }
 
-
-    public void setInterceptors(Class[] interceptors) {
-        this.interceptors = interceptors;
-    }
 
     public Class getClazz() {
         return clazz;
@@ -62,18 +59,13 @@ public class Invocation extends BeanContext {
         this.proxyMethod = proxyMethod;
     }
 
-
-    
     @SuppressWarnings("unchecked")
 
     public void invoke() throws Throwable {
 
-        if(index < interceptors.length ){
+        if(index < interceptorChain.length ){
 
-             Class<? extends Interceptor> clazz = interceptors[ index++ ] ;
-             Interceptor interceptor = getFactory().get(clazz);
-             interceptor.intercept(this);
-             
+            interceptorChain[index++].intercept(this);
         }
         else{
             result = proxyMethod.invokeSuper(object,params);
@@ -84,7 +76,7 @@ public class Invocation extends BeanContext {
     
     public void finishInvoke(){
 
-        index = interceptors.length;
+        index = interceptorChain.length;
     }
 
 

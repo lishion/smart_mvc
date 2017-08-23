@@ -7,12 +7,12 @@ import com.smart.framework.core.SmartMVC;
 import java.lang.reflect.AnnotatedElement;
 import java.util.*;
 
-import static com.smart.framework.aop.AopAnnotationUtil.State.*;
+import static com.smart.framework.aop.MethodAnnotationScanner.State.*;
 
 /**
  * Created by Lishion on 2017/7/19.
  */
-public class AopAnnotationUtil {
+public class MethodAnnotationScanner {
 
     public enum State{
         GLOBAL_INTERCEPTOR,
@@ -26,7 +26,7 @@ public class AopAnnotationUtil {
     private AnnotatedElement clazz,method;
     private List<Class<? extends Interceptor>> classesGet,classesClean;
     private FrameworkConfig config = SmartMVC.frameWorkConfig;
-    public AopAnnotationUtil(AnnotatedElement clazz , AnnotatedElement method){
+    public MethodAnnotationScanner(AnnotatedElement clazz , AnnotatedElement method){
         this.clazz = clazz;
         this.method = method;
         classesGet = new LinkedList<>();
@@ -37,7 +37,7 @@ public class AopAnnotationUtil {
      * 获取固定方法上拦截器class合集
      * @return 该方法包含的所有拦截器class集合
      */
-    public List<Class<? extends Interceptor>> getAopClass(){
+    public List<Class<? extends Interceptor>> scanInterceptor(){
 
         State action = GLOBAL_INTERCEPTOR;
         if(isAllClear(method)){
