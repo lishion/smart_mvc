@@ -22,7 +22,7 @@ public class BeansContainer {
 
         try {
             for(Class<?> clazz:classContainer.getBeanClass()){
-                smartBeans.add( BeanFactory.build(clazz) );
+               // smartBeans.add( BeanFactory.build(clazz) );
             }
         }catch (Exception e){
             e.printStackTrace();

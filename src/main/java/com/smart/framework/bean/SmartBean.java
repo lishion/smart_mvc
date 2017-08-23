@@ -18,8 +18,17 @@ public class SmartBean {
     private Class<?> clazz = null;
     private Class<?> proxyClazz = null;
     private boolean isSingleton;
-    private boolean isProxy = false;
 
+    public boolean isCache() {
+        return isCache;
+    }
+
+    public void setCache(boolean cache) {
+        isCache = cache;
+    }
+
+    private boolean isProxy = false;
+    private boolean isCache = false;
     public boolean isSingleton() {
         return isSingleton;
     }

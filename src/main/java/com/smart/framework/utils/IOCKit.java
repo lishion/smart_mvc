@@ -36,9 +36,9 @@ public class IOCKit {
                 Class<?> injectClass = inject.value() == Inject.class ? field.getType() : inject.value();
                 try {
 
-                    SmartBean fieldSmartBean = BeanFactory.build( injectClass );
-                    inject(fieldSmartBean);
-                    ReflectionKit.setFiled(smartBean.getInstance(),field,fieldSmartBean.getInstance());
+                    //SmartBean fieldSmartBean = BeanFactory.build( injectClass );
+                   // inject(fieldSmartBean);
+                   // ReflectionKit.setFiled(smartBean.getInstance(),field,fieldSmartBean.getInstance());
 
                 } catch (Exception e) {
                     System.err.println("inject bean: " + clazz.getSimpleName() + "!");

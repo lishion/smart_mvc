@@ -1,31 +1,33 @@
 package com.smart.framework.aop;
 
-import com.smart.framework.aop.Interceptor;
-import com.smart.framework.aop.Interceptors;
+import com.smart.framework.bean.BeanContext;
+import com.smart.framework.bean.IBeanFactory;
 import net.sf.cglib.proxy.MethodProxy;
-
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Queue;
+
 
 /**
  * Created by Lishion on 2017/7/19.
  */
 
-public class Invocation {
+public class Invocation extends BeanContext {
 
     private Object object;
     private MethodProxy proxyMethod;
-    private Object[] objects;
+    private Object[] params;
     private Method method;
     private Class clazz;
-    private Interceptors interceptors;
-    private int index;
+    private int index = 0;
     private Object result;
-    private Class[] interceptorChain;
+    private Class[] interceptors;
+
+    public Invocation(Class[] interceptors, IBeanFactory factory){
+        this.interceptors = interceptors;
+        this.setFactory(factory);
+    }
 
 
-    public Invocation(Interceptors interceptors){
+    public void setInterceptors(Class[] interceptors) {
         this.interceptors = interceptors;
     }
 
@@ -41,7 +43,7 @@ public class Invocation {
         this.method = method;
     }
 
-    public Object getResult() {
+    Object getResult() {
         return result;
     }
 
@@ -53,32 +55,37 @@ public class Invocation {
         return method;
     }
 
-    public Object[] getArgs() { return objects; }
-
-    public void setObjects(Object[] objects) {
-        this.objects = objects;
+    void setParams(Object[] params) {
+        this.params = params;
     }
-
-    public void setInterceptorChain(Class[] interceptorChain) {
-        this.interceptorChain = interceptorChain;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    public void invoke() throws Throwable {
-
-        if(index < interceptorChain.length ){
-             Class<? extends Interceptor> clazz = interceptorChain[ index++ ] ;
-             Interceptor interceptor = interceptors.get(clazz);
-             interceptor.intercept(this);
-        }
-        else{
-            result = proxyMethod.invokeSuper(object,objects);
-        }
-
-    }
-
-    public void setProxyMethod(MethodProxy proxyMethod) {
+    void setProxyMethod(MethodProxy proxyMethod) {
         this.proxyMethod = proxyMethod;
     }
+
+
+    
+    @SuppressWarnings("unchecked")
+
+    public void invoke() throws Throwable {
+
+        if(index < interceptors.length ){
+
+             Class<? extends Interceptor> clazz = interceptors[ index++ ] ;
+             Interceptor interceptor = getFactory().get(clazz);
+             interceptor.intercept(this);
+             
+        }
+        else{
+            result = proxyMethod.invokeSuper(object,params);
+        }
+
+    }
+
+    
+    public void finishInvoke(){
+
+        index = interceptors.length;
+    }
+
+
 }

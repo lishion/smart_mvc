@@ -40,7 +40,7 @@ public class RequestHandlerProxy {
 
     public void invoke() throws Exception {
         before();
-        result = handler.handl(args);
+        result = handler.handle(args);
         after();
     }
 }

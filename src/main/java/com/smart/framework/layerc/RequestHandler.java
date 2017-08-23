@@ -20,6 +20,7 @@ public class RequestHandler {
     private Class<?> handleClass;
     private Method handlerMethod;
     private Parameter[] parameters;
+
     public Parameter[] getParameters() {
         return parameters;
     }
@@ -39,9 +40,9 @@ public class RequestHandler {
             handlerObject = bean.getInstance();//如果是单例 则直接从缓存中获取bean对象
         }else{
             try {
-                SmartBean newBean = BeanFactory.build(bean.getClazz());//否则每一次请求都会生成新的Bean
-                IOCKit.inject(newBean);
-                handlerObject = newBean.getInstance();
+                //SmartBean newBean = BeanFactory.build(bean.getClazz());//否则每一次请求都会生成新的Bean
+                //IOCKit.inject(newBean);
+               // handlerObject = newBean.getInstance();
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new Exception("get handle object error!!");
@@ -50,7 +51,7 @@ public class RequestHandler {
 
     }
 
-    public Object handl(Object ...args) throws Exception {
+    public Object handle(Object ...args) throws Exception {
 
         Object o = null;
         resolveHandlerObject();

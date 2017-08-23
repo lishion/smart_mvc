@@ -28,7 +28,7 @@ public class RequestHandlerMatcher {
 
     }
 
-    public RequestHandler getHanlder(){
+    public RequestHandler getHandlder(){
         String method = request.getMethod().toUpperCase();//得到大写形式的请求方法
         String url = getRequestUrl();
 

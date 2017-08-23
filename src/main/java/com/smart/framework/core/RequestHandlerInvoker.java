@@ -17,11 +17,12 @@ public class RequestHandlerInvoker {
         this.request = request;
         this.response = response;
     }
+    
     public void invoke() throws Exception {
 
         RequestHandlerMatcher matcher = new RequestHandlerMatcher(SmartMVC.requestMap,request);
 
-        RequestHandler handler = matcher.getHanlder();
+        RequestHandler handler = matcher.getHandlder();
 
         if(handler==null){
             System.err.println("can't find handle method for url: "+ matcher.getRequestUrl() + " !");
