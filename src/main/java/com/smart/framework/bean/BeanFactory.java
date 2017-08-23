@@ -3,19 +3,17 @@ package com.smart.framework.bean;
 import com.smart.framework.annotation.Bean;
 import com.smart.framework.annotation.BeanType;
 import com.smart.framework.annotation.Inject;
-import com.smart.framework.aop.Interceptor;
-import com.smart.framework.aop.InterceptorChain;
 
-import com.smart.framework.core.SmartMVC;
+import com.smart.framework.exception.GetInstanceException;
+import com.smart.framework.exception.GetBeanException;
+import com.smart.framework.exception.SetFieldException;
 import com.smart.framework.utils.ReflectionKit;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
 
 /**
  * Bean工厂类
@@ -35,21 +33,18 @@ public class BeanFactory implements IBeanFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(Class<T> clazz) {
+    public <T> T get(Class<T> clazz) throws GetBeanException {
         BeanWrapper beanWrapper = new BeanWrapper(clazz);
         doGet(beanWrapper);
         return (T) beanWrapper.getInstance();
     }
 
-    private void doGet(BeanWrapper beanWrapper) {
-
+    private void doGet(BeanWrapper beanWrapper) throws GetBeanException {
 
         Class<?> clazz = beanWrapper.getClazz();
-
         for(BeanProcessPreCallback callback : preCallbacks){
             callback.process(beanWrapper);
         }
-
         try {
             //该类无需代理
             if(beanWrapper.getInstance()==null){
@@ -81,8 +76,15 @@ public class BeanFactory implements IBeanFactory {
 
             }
 
+        }catch (GetInstanceException e){
+                e.printStackTrace();
+                throw new GetBeanException("get instance of type: " + clazz.getName() + " error!");
+        }catch (SetFieldException e){
+                e.printStackTrace();
+                throw new GetBeanException("set field of type: " + clazz.getName() + " error!");
         }catch (Exception e){
                 e.printStackTrace();
+                throw new GetBeanException(e);
         }
         
     }
