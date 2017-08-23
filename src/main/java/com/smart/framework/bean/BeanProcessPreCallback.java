@@ -1,6 +1,8 @@
 package com.smart.framework.bean;
 
-public interface BeanProcessPreCallback {
+import com.smart.framework.exception.GetBeanException;
 
-    BeanWrapper process(BeanWrapper beanWrapper);
+public interface BeanProcessPreCallback  {
+
+    void process(BeanWrapper beanWrapper);
 }
