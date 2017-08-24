@@ -1,6 +1,7 @@
 package com.smart.framework.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.file.*;
@@ -45,6 +46,15 @@ public class ClassKit {
             classes.add(loadClass(s.trim(),false));
         }
         return  classes;
+    }
+
+    public static Set<Class<?>> getProjectClass() throws IOException,ClassNotFoundException{
+        Set<Class<?>> classes = new HashSet<>();
+        List<String> classNames = ClassNameKit.getClassName(Constants.EMPTY_STR);
+        for(String s:classNames){
+            classes.add(loadClass(s.trim(),false));
+        }
+        return classes;
     }
 
     public static void visitField(Class<?> clazz , Consumer<Field> consumer){

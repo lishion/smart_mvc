@@ -1,8 +1,6 @@
 package com.smart.framework.aop;
 
 import com.smart.framework.annotation.*;
-import com.smart.framework.config.FrameworkConfig;
-import com.smart.framework.core.SmartMVC;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.*;
@@ -23,14 +21,16 @@ public class MethodAnnotationScanner {
         RETURN;
     }
 
-    private AnnotatedElement clazz,method;
+    private Class<?> clazz;
+    private AnnotatedElement       method;
     private List<Class<? extends Interceptor>> classesGet,classesClean;
-    private FrameworkConfig config = SmartMVC.frameWorkConfig;
-    public MethodAnnotationScanner(AnnotatedElement clazz , AnnotatedElement method){
+    private GlobalInterceptors globalInterceptors;
+    public MethodAnnotationScanner(Class<?> clazz , AnnotatedElement method,GlobalInterceptors interceptors){
         this.clazz = clazz;
         this.method = method;
         classesGet = new LinkedList<>();
         classesClean = new LinkedList<>();
+        this.globalInterceptors = interceptors;
     }
 
     /**
@@ -88,14 +88,14 @@ public class MethodAnnotationScanner {
      * 获得全局拦截器
      */
     private void addGlobal(){
-        Interceptors interceptors = config.getInterceptors();
+        
 
-        if(interceptors.getControlInter().size()>=1 && BeanType.isControler(clazz)){
-            classesGet.addAll(interceptors.getControlInter().keySet());
+        if(globalInterceptors.getOnController().size()>=1 && BeanType.isController(clazz)){
+            classesGet.addAll(globalInterceptors.getOnController().keySet());
         }
 
-        if(interceptors.getServiceInter().size()>=1 && BeanType.isService(clazz)){
-            classesGet.addAll(interceptors.getServiceInter().keySet());
+        if(globalInterceptors.getOnService().size()>=1 && BeanType.isService(clazz)){
+            classesGet.addAll(globalInterceptors.getOnService().keySet());
         }
     }
 

@@ -1,7 +1,8 @@
 package com.smart.framework.config;
 
-import com.smart.framework.aop.Interceptor;
-import com.smart.framework.aop.Interceptors;
+import com.smart.framework.aop.GlobalInterceptors;
+import com.smart.framework.layerm.Converter;
+import com.smart.framework.layerm.StringConverters;
 
 import java.util.List;
 
@@ -10,9 +11,10 @@ import java.util.List;
  */
 public interface SmartConfig {
 
-    void setPackageToScan(List<String> ls);
+    void setConverter(StringConverters converters);
     void setResource(List<String> ls);
-    void setGlobalInterceptor(Interceptors i);
+    void setGlobalInterceptor(GlobalInterceptors i);
     void setNotFindPage(NotFindPage page);
+    
 
 }

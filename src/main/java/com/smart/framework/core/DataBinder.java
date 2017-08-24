@@ -1,14 +1,9 @@
 package com.smart.framework.core;
 
 import com.smart.framework.annotation.Var;
-import com.smart.framework.layerm.ConverterContainer;
-import com.smart.framework.layerm.DefultConverter;
-import com.smart.framework.layerv.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +13,10 @@ import java.util.List;
 public class DataBinder {
     Parameter[] parameters  = null;
     HttpServletRequest req = null;
-    ThreadLocal<FrameworkParaItem> itemThreadLocal = new ThreadLocal<>();
+
     public DataBinder(Parameter[] parameters, HttpServletRequest req){
 
-        itemThreadLocal.set(new FrameworkParaItem());
+      
         this.parameters = parameters;
         this.req = req;
 
@@ -34,7 +29,8 @@ public class DataBinder {
      */
     public Object[] bind() throws Exception {
 
-        DefultConverter defultConverter = new DefultConverter();
+        //ParamObjectConverter paramObjectConverter = new ParamObjectConverter();
+
         List<Object> objects = new ArrayList<>();
         for (Parameter parameter : parameters) {
 
@@ -42,18 +38,11 @@ public class DataBinder {
             Object o = null;
             if (parameter.isAnnotationPresent(Var.class)) {
                  o = requestVarBinder(parameter,clazz);
-            } else if(itemThreadLocal.get().isParaItem(clazz)){//绑定框架需要的变量 如HttpServletRequest ModelAndView
-
-                 try {
-                     o = itemThreadLocal.get().getInstance(clazz);
-                 }catch (Exception e){
-                     e.printStackTrace();
-                     throw new Exception("bind framework item error!!");
-                 }
+            } else if(true){//todo:绑定框架需要的变量 如HttpServletRequest ModelAndView
 
             }
             else{
-                 o = defultConverter.convert(parameter.getType(), req);
+                // o = paramObjectConverter.convert(parameter.getType(), req);
             }
             objects.add(o);
         }
@@ -68,12 +57,6 @@ public class DataBinder {
      * @throws Exception
      */
     private Object requestVarBinder(Parameter parameter, Class<?> clazz) throws Exception{
-        Var var = parameter.getAnnotation(Var.class);
-        try {
-            return SmartMVC.converterContainer.getSimpleConverter(clazz).convert(clazz, req.getParameter(var.value()));
-        } catch (NumberFormatException e) {
-
-            throw new Exception(e);
-        }
+         return null;
     }
 }

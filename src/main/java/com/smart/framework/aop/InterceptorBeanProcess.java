@@ -15,15 +15,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InterceptorBeanProcess implements BeanProcessPreCallback {
-
-    IBeanFactory beanFactory = null;
+    
     private Map<Method,Interceptor[]> interceptorChainCache ;
     private Map< Class<? extends Interceptor> , Interceptor > interceptorInstanceCache ;
-    public InterceptorBeanProcess(){
+    private GlobalInterceptors globalInterceptors;
+    public InterceptorBeanProcess(GlobalInterceptors interceptors){
 
         this.interceptorChainCache = new ConcurrentHashMap<>();
         this.interceptorInstanceCache = new ConcurrentHashMap<>();
-
+        this.globalInterceptors = interceptors;
+        interceptorInstanceCache.putAll(globalInterceptors.getOnController());
+        interceptorInstanceCache.putAll(globalInterceptors.getOnService());
     }
 
     @Override
@@ -40,9 +42,9 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
 
     }
 
-    private Interceptor[] getInterceptors(AnnotatedElement clazz , Method method){
+    private Interceptor[] getInterceptors(Class clazz , Method method){
 
-        MethodAnnotationScanner scanner = new MethodAnnotationScanner(clazz,method);
+        MethodAnnotationScanner scanner = new MethodAnnotationScanner(clazz,method,globalInterceptors);
         List<Class<? extends Interceptor>> interceptorClass =  scanner.scanInterceptor();
         Interceptor[] interceptors = new Interceptor[interceptorClass.size()];
         for(int i=0;i<interceptors.length;i++){
@@ -51,10 +53,10 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
                try {
                    interceptor = (Interceptor) ReflectionKit.getObject(interceptorClass.get(i));
                }catch (GetInstanceException e){
-                   System.out.println("");
+                   System.out.println("get instance of interceptor :" + interceptorClass.getClass().getName()+" error!");
                    e.printStackTrace();
                }
-                interceptorInstanceCache.put(interceptor.getClass(),interceptor);
+               interceptorInstanceCache.put(interceptor.getClass(),interceptor);
             }
             interceptors[i] = interceptor;
         }

@@ -11,6 +11,7 @@ import com.smart.framework.utils.ReflectionKit;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,10 +22,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BeanFactory implements IBeanFactory {
 
-
+    private List<SmartBean> beans = new LinkedList<>();
     private Map< Class<?>,Object > beanInstanceCache = new ConcurrentHashMap<>();
     private List<BeanProcessPreCallback>  preCallbacks= new ArrayList<>(4);
 
+    public List<SmartBean> getBeans() {
+        return beans;
+    }
 
     public void registePreCallback(BeanProcessPreCallback preCallback){
            preCallbacks.add(preCallback);
@@ -37,6 +41,9 @@ public class BeanFactory implements IBeanFactory {
         BeanWrapper beanWrapper = new BeanWrapper(clazz);
         doGet(beanWrapper);
         return (T) beanWrapper.getInstance();
+    }
+    public void cacheBeans(Class<?> clazz){
+        beans.add(analyzeBean(clazz));
     }
 
     private void doGet(BeanWrapper beanWrapper) throws GetBeanException {

@@ -1,9 +1,5 @@
 package com.smart.framework.core;
 
-import com.smart.framework.config.FrameworkConfig;
-import com.smart.framework.layerc.RequestHandler;
-import com.smart.framework.layerc.RequestMap;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,12 +17,6 @@ public class DispatchServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
 
-        RequestHandlerInvoker invoker = new RequestHandlerInvoker(req,resp);
-        try {
-            invoker.invoke();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -40,12 +30,13 @@ public class DispatchServlet extends HttpServlet {
         registration.addMapping("*.js");
         registration.addMapping("*.html");
         registration.addMapping("*.css");
-        SmartMVC.frameWorkConfig.getResource().forEach(registration::addMapping);
+
         ServletRegistration registration1 = getServletContext().getServletRegistration("jsp");
         registration1.addMapping("*.jsp");
+
+        
         try {
-            SmartMVC frameworkStarter = new SmartMVC(config,getServletContext());
-            frameworkStarter.start();
+
         }catch (Exception e){
             e.printStackTrace();
             throw new ServletException("smart framework init error!!");

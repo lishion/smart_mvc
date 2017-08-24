@@ -2,7 +2,6 @@ package com.smart.framework.bean;
 
 import com.smart.framework.annotation.BeanType;
 import com.smart.framework.aop.Interceptor;
-import com.smart.framework.aop.Interceptors;
 
 
 import java.lang.reflect.Field;
@@ -136,11 +135,7 @@ public class SmartBean {
      * @return 经过代理的方法
      */
 
-    public Method getProxyMethod(Method method) throws NoSuchMethodException{
-       return proxyClazz.getDeclaredMethod(method.getName(),method.getParameterTypes());
-    }
 
-    public Field getProxyField(Field field) throws NoSuchFieldException {
-        return proxyClazz.getDeclaredField(field.getName());
-    }
+
+
 }

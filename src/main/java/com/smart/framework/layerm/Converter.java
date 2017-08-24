@@ -1,10 +1,11 @@
 package com.smart.framework.layerm;
 
+import sun.reflect.generics.tree.VoidDescriptor;
+
 /**
  * Created by Lishion on 2017/7/9.
  */
 
-@FunctionalInterface
-public interface Converter<fromType ,toType> {
-     toType convert(Class<?> clazz,fromType t) throws Exception;
+public interface Converter<FromType ,ToType> {
+    ToType convert(FromType t);
 }

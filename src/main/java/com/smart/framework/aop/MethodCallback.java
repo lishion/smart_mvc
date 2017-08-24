@@ -1,8 +1,5 @@
 package com.smart.framework.aop;
 
-import com.smart.framework.bean.BeanFactory;
-import com.smart.framework.config.FrameworkConfig;
-import com.smart.framework.core.SmartMVC;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import java.lang.reflect.Method;

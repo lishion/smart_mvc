@@ -5,7 +5,7 @@ import com.smart.framework.annotation.*;
 /**
  * Created by Lishion on 2017/8/20.
  */
-@Bean(value = BeanType.Controler , singleton = true)
+@Bean(value = BeanType.Controller , singleton = true)
 @Before(Inter.class)
 public class Action {
     @Inject
