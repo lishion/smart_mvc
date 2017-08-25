@@ -11,14 +11,11 @@ import java.util.stream.Collectors;
 public class AnnotationHandlerMatcher implements RequestHandlerMatcher {
     @Override
     public RequestHandler get(String requestUrl,String method , List<RequestHandler> handlers) throws NoSuchHandlerException, MultiHandlerException {
-        Predicate<RequestHandler> filter = handler->{
-            String reqUrl = removeBracketIfNecessary(requestUrl);
-            String targetUrl = removeBracketIfNecessary(handler.getUrl());
-            return reqUrl.equals(targetUrl);
-        };
-
+     
         //首先找到url匹配的
-        List<RequestHandler> urlMatchItem = handlers.stream().filter(filter).collect(Collectors.toList());
+        List<RequestHandler> urlMatchItem = handlers.stream()
+                                                    .filter(handler->requestUrl.equals(handler.getUrl()))
+                                                    .collect(Collectors.toList());
         List<RequestHandler> allMatchItem = null;
 
         if(urlMatchItem.size()==1){
@@ -41,15 +38,5 @@ public class AnnotationHandlerMatcher implements RequestHandlerMatcher {
         return allMatchItem.get(0);
     }
 
-    /**
-     * 去掉restful表达式中的括号部分
-     */
-    private String removeBracketIfNecessary(String s){
-        int endIndex = 0;
-        if(s.contains("{")){
-            endIndex = s.indexOf("{");
-        }
-        return s.substring(0,endIndex);
-    }
 
 }
