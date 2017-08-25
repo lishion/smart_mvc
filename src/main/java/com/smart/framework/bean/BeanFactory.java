@@ -70,6 +70,8 @@ public class BeanFactory implements IBeanFactory {
                     instance = ReflectionKit.getObject(clazz);
                 }
                 beanWrapper.setInstance(instance);
+            }else {
+                beanInstanceCache.put(clazz,beanWrapper.getInstance());
             }
 
             for(Field field : clazz.getDeclaredFields()){

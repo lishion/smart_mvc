@@ -8,4 +8,5 @@ import com.smart.framework.annotation.BeanType;
  */
 @Bean(value = BeanType.Model,singleton = true)
 public class Dao {
+    
 }

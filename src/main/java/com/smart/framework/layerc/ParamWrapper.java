@@ -9,6 +9,15 @@ public class ParamWrapper {
     private Parameter parameter;
     private String requestUrl;
     private String requestMethod;
+    private Method method;
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
+    }
 
     public Parameter getParameter() {
         return parameter;

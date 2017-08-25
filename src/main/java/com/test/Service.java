@@ -16,6 +16,6 @@ public class Service {
     public String toString() {
         return "Service{" +
                 "dao=" + dao +
-                '}'+this.hashCode();
+                '}';
     }
 }

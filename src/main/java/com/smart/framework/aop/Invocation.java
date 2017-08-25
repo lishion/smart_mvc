@@ -60,7 +60,9 @@ public class Invocation {
 
     public void invoke() throws Throwable {
 
-        if(index < interceptorChain.length ){
+
+        
+        if(interceptorChain!=null&&index < interceptorChain.length ){
 
             interceptorChain[index++].intercept(this);
         }

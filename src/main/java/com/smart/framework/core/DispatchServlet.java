@@ -28,6 +28,7 @@ public class DispatchServlet extends HttpServlet {
         String contextPath = req.getContextPath();//得到项目路径
         String requestUrl =  req.getRequestURL().toString();
         String path =  requestUrl.substring(requestUrl.indexOf(contextPath)+contextPath.length(),requestUrl.length());
+        
         String method = req.getMethod().toUpperCase();
         AnnotationHandlerMatcher matcher = new AnnotationHandlerMatcher();
         RequestHandler handler = null;
@@ -46,6 +47,7 @@ public class DispatchServlet extends HttpServlet {
                     paramWrapper.setRequestUrl(path);
                     paramWrapper.setParameter(parameter);
                     paramWrapper.setRequestMethod(method);
+                    paramWrapper.setMethod(handler.getHandlerMethod());
                     objects.add(resolver.resolve(paramWrapper,req,frameContext.getConverters()));
                 }
             }

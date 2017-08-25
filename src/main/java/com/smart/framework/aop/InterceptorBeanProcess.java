@@ -1,5 +1,6 @@
 package com.smart.framework.aop;
 
+import com.smart.framework.annotation.Before;
 import com.smart.framework.bean.BeanProcessPreCallback;
 import com.smart.framework.bean.BeanWrapper;
 import com.smart.framework.bean.IBeanFactory;
@@ -30,12 +31,28 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
 
     @Override
     public void process(BeanWrapper beanWrapper)  {
+
         Class<?> clazz = beanWrapper.getClazz();
         Method[] methods = clazz.getDeclaredMethods();
         MethodCallback methodCallback = new MethodCallback(interceptorChainCache);
+        boolean needProxy = false;
         for(Method method:methods){
-            Interceptor[] interceptors = getInterceptors(clazz,method);
-            interceptorChainCache.put(method,interceptors);
+
+            Interceptor[] interceptors = interceptorChainCache.get(method);
+            if( interceptors==null ){//如果未缓存 则先进行缓存
+                interceptors = getInterceptors(clazz,method);
+                if(interceptors.length<1){
+                    continue;
+                }
+                needProxy = true;
+                interceptorChainCache.put(method,interceptors);
+            }else{
+                needProxy = true;
+            }
+
+        }
+        if(!needProxy){
+            return;
         }
         Object instance = Enhancer.create(clazz,methodCallback);
         beanWrapper.setInstance(instance);

@@ -27,27 +27,30 @@ public class RequestHandlers {
         beanFactory.getBeans().forEach(smartBean -> {
             smartBean.visitMethod((clazz, method) -> {
                 if(!BeanType.isController(clazz)) return;
-                Route classRoute = null;
-                Route methodRoute = null;
-                StringBuilder url = new StringBuilder();
-                String submitMethod =Constants.EMPTY_STR;
-
-                if(clazz.isAnnotationPresent(Route.class)){
-                    classRoute = clazz.getAnnotation(Route.class);
-                    url.append("/");
-                    url.append(urlTrim(classRoute.value()));
-                    url.append("/");
-                    submitMethod = classRoute.method();
-                }
-
                 if(method.isAnnotationPresent(Route.class)){
-                    methodRoute = method.getAnnotation(Route.class);
-                    url.append(urlTrim(methodRoute.value()));
+                    Route classRoute = null;
+                    Route methodRoute = null;
+                    StringBuilder url = new StringBuilder();
+                    String submitMethod =Constants.EMPTY_STR;
+
+                    if(clazz.isAnnotationPresent(Route.class)){
+                        classRoute = clazz.getAnnotation(Route.class);
+                        url.append("/");
+                        url.append(urlTrim(classRoute.value()));
+                        submitMethod = classRoute.method();
+                    }
                     url.append("/");
-                    submitMethod = methodRoute.method();
+
+                    if(method.isAnnotationPresent(Route.class)){
+                        methodRoute = method.getAnnotation(Route.class);
+                        url.append(urlTrim(methodRoute.value()));
+                        submitMethod = methodRoute.method();
+                    }
+                    RequestHandler handler = new RequestHandler(url.toString(),submitMethod,method);
+                    handlers.add(handler);
                 }
-                RequestHandler handler = new RequestHandler(url.toString(),submitMethod,method);
-                handlers.add(handler);
+
+
             });
 
         });
@@ -58,6 +61,11 @@ public class RequestHandlers {
 
         int startIndex = 0;
         int endIndex = s.length()-1;
+
+        if(s.matches("([^/])+")){
+            return Constants.EMPTY_STR;
+        }
+
         if(s.replaceAll("/","").isEmpty()){
             return Constants.EMPTY_STR;
         }

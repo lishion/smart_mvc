@@ -11,7 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class StringConverters implements ConverterFactory {
     private  Map<Class<?>,StringConverter> simpleConverters = new ConcurrentHashMap<>();
-    
+
+    public StringConverters() {
+        init();
+    }
 
     void init() {
 
