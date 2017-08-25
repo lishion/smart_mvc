@@ -12,7 +12,7 @@ public class Action {
     Service service;
 
     @Route("/test")
-    String aaa(){
+    String aaa(@PathVar String x){
         System.out.println(toString());
         return "lll";
     }

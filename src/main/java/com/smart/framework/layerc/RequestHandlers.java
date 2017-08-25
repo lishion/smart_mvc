@@ -17,7 +17,11 @@ public class RequestHandlers {
 
 
 
-    public List<RequestHandler> handlers = new ArrayList<>(10);
+    private List<RequestHandler> handlers = new ArrayList<>(10);
+
+    public List<RequestHandler> getHandlers() {
+        return handlers;
+    }
 
     public void cacheMap(BeanFactory beanFactory){
         beanFactory.getBeans().forEach(smartBean -> {

@@ -94,13 +94,16 @@ public class FrameContext {
                 requestMap.cacheMap(beanFactory);
 
         }catch (IOException e){
+            e.printStackTrace();
 
         }catch (ClassNotFoundException e){
+            e.printStackTrace();
 
         }catch (GetBeanException e){
+            e.printStackTrace();
             
         }catch (GetInstanceException e){
-            
+              e.printStackTrace();
         }
     }
     

@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Lishion on 2017/7/9.
  * 转换器容器
  */
-public class StringConverters {
+public class StringConverters implements ConverterFactory {
     private  Map<Class<?>,StringConverter> simpleConverters = new ConcurrentHashMap<>();
     
 
@@ -33,11 +33,14 @@ public class StringConverters {
         simpleConverters.put(float.class, Float::parseFloat);
         simpleConverters.put(long.class, Long::parseLong);
         simpleConverters.put(short.class, Short::parseShort);
+        simpleConverters.put(Map.class,new StringMapConverter());
+        simpleConverters.put(Object[].class,new StringArrayConverter());
 
 
     }
 
 
+    @Override
     public StringConverter get(Class<?> clazz){
         return simpleConverters.get(clazz);
     }

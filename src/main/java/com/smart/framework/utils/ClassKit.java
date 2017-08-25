@@ -48,10 +48,11 @@ public class ClassKit {
         return  classes;
     }
 
-    public static Set<Class<?>> getProjectClass() throws IOException,ClassNotFoundException{
+    public static Set<Class<?>> getProjectClass() throws IOException, ClassNotFoundException {
         Set<Class<?>> classes = new HashSet<>();
         List<String> classNames = ClassNameKit.getClassName(Constants.EMPTY_STR);
         for(String s:classNames){
+
             classes.add(loadClass(s.trim(),false));
         }
         return classes;
