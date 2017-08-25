@@ -6,4 +6,6 @@ package com.smart.framework.annotation;
 public interface RequestType {
     String GET = "GET";
     String POST = "POST";
+    String UPDATE = "UPDATE";
+    String DELETE = "DELETE";
 }
