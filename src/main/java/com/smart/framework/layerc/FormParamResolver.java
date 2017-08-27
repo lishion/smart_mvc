@@ -6,6 +6,7 @@ import com.smart.framework.exception.GetInstanceException;
 import com.smart.framework.exception.SetFieldException;
 import com.smart.framework.layerm.ConverterFactory;
 import com.smart.framework.layerm.StringConverter;
+import com.smart.framework.utils.Constants;
 import com.smart.framework.utils.ReflectionKit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +29,18 @@ public class FormParamResolver implements ParamResolver {
         return false;
     }
 
+    private boolean isModel(ParamWrapper paramWrapper){
+        return  BeanType.isModel(paramWrapper.getParameter().getType());
+    }
+    private boolean isVar(ParamWrapper paramWrapper){
+        return paramWrapper.getParamAnnotation(Var.class)!=null;
+    }
+
     @Override
     public Object resolve(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory) {
-        if(parameter.getParameter().isAnnotationPresent(Var.class)){
+        if(isVar(parameter)&&!isModel(parameter)){
             return resolveSimpleType(parameter,request,factory);
-        }else if(BeanType.isModel(parameter.getParameter().getType())){
+        }else if(isModel(parameter)){
             return resolveModel(parameter,request,factory);
         }
         return null;
@@ -41,28 +49,29 @@ public class FormParamResolver implements ParamResolver {
 
 
 
+
     private Object resolveSimpleType(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory) {
-        StringConverter stringConverter = (StringConverter) factory.get(parameter.getParameter().getType());
+        StringConverter stringConverter = (StringConverter) factory.get(parameter.getType());
         if(stringConverter==null){
            return null;
         }
-        return stringConverter.convert(request.getParameter(parameter.getParameter().getAnnotation(Var.class).value()));
+        return stringConverter.convert(request.getParameter(parameter.getParamAnnotation(Var.class).value()));
     }
 
 
     private Object resolveModel(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory){
 
-        Class<?> clazz = parameter.getClass();
+        Class<?> clazz = parameter.getType();
         Field[] fields = clazz.getDeclaredFields();
+        String prefix = isVar(parameter) ? parameter.getParamAnnotation(Var.class).value()+".": Constants.EMPTY_STR;
 
         try {
-
             Object paramInstance = ReflectionKit.getObject(clazz);
             for (Field field : fields) {
                 StringConverter stringConverter = (StringConverter) factory.get(field.getType());
                 Object value = null;
                 if (stringConverter != null) {
-                    value = stringConverter.convert(request.getParameter(field.getName()));
+                    value = stringConverter.convert(request.getParameter(prefix+field.getName()));
                 }
                 ReflectionKit.setFiled(paramInstance, field, value);
             }
@@ -70,6 +79,7 @@ public class FormParamResolver implements ParamResolver {
             
         }
         catch (GetInstanceException|SetFieldException e) {
+            System.err.println("bind parameter error!");
             e.printStackTrace();
             return null;
         }

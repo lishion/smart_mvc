@@ -1,37 +1,42 @@
 package com.test;
 
-import com.smart.framework.annotation.Config;
 import com.smart.framework.aop.GlobalInterceptors;
+import com.smart.framework.aop.Interceptor;
+import com.smart.framework.config.DevMode;
 import com.smart.framework.config.NotFindPage;
 import com.smart.framework.config.SmartConfig;
-import com.smart.framework.layerm.StringConverters;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Lishion on 2017/8/20.
  */
-@Config
 public class MyConfig  implements SmartConfig {
 
 
     @Override
-    public void setConverter(StringConverters converters) {
-        
-    }
-
-    @Override
-    public void setResource(List<String> ls) {
-
-    }
-
-    @Override
-    public void setGlobalInterceptor(GlobalInterceptors i) {
-
-    }
-
-    @Override
     public void setNotFindPage(NotFindPage page) {
+
+    }
+
+    @Override
+    public void setDefaultValue(Map<Class<?>, Object> defaultValue) {
+
+    }
+
+    @Override
+    public void setDevMode(DevMode dev) {
+
+    }
+
+    @Override
+    public void addAssets(List<String> postFix) {
+
+    }
+
+    @Override
+    public void addInterceptor(GlobalInterceptors i) {
 
     }
 }

@@ -8,4 +8,5 @@ public interface RequestType {
     String POST = "POST";
     String UPDATE = "UPDATE";
     String DELETE = "DELETE";
+    String DEFAULT = "DEFAULT";
 }

@@ -13,5 +13,5 @@ import java.lang.annotation.*;
 
 public @interface Route {
     String value()  ;
-    String method() default Constants.EMPTY_STR;
+    String method() default RequestType.DEFAULT;
 }

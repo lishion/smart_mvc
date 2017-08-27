@@ -1,6 +1,7 @@
 package com.test;
 
 import com.smart.framework.annotation.*;
+import com.smart.framework.layerv.ModelAndView;
 import org.apache.tools.ant.util.StringUtils;
 
 /**
@@ -11,27 +12,20 @@ public class Action {
     @Inject
     Service service;
 
-    @Route("/test")
+    @Route("/index")
     @Before(Inter.class)
-    public String aaa(@Var("x") String x){
-        System.out.println("aaa");
-        System.out.println(x==null?"null":x);
-        System.out.println(service.toString());
-        System.out.println(this.toString());
-        
-        return "lll";
+    public ModelAndView aaa(){
+        ModelAndView modelAndView = new ModelAndView("page/index.jsp");
+        return modelAndView;
     }
 
-    @Route(value = "/test",method = RequestType.GET)
+    @Route(value = "/test",method = RequestType.DEFAULT)
     @Before(Inter.class)
-    public String bbb(@Var("x") String x){
-        
-        System.out.println("bbb");
-        System.out.println(x==null?"null":x);
-        System.out.println(service.toString());
-        System.out.println(this.toString());
+    public User bbb(@Var("x") String x,@Var("user") User user){
 
-        return "lll";
+        System.out.println(x==null?"null":x);
+        System.out.println(user==null?"null":user);
+        return user;
     }
 
     @Override

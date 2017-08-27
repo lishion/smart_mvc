@@ -1,32 +1,20 @@
 package com.smart.framework.aop;
 
-import com.smart.framework.annotation.Before;
 import com.smart.framework.bean.BeanProcessPreCallback;
 import com.smart.framework.bean.BeanWrapper;
-import com.smart.framework.bean.IBeanFactory;
 import com.smart.framework.exception.GetInstanceException;
 import com.smart.framework.utils.ReflectionKit;
 import net.sf.cglib.proxy.Enhancer;
 
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InterceptorBeanProcess implements BeanProcessPreCallback {
     
-    private Map<Method,Interceptor[]> interceptorChainCache ;
-    private Map< Class<? extends Interceptor> , Interceptor > interceptorInstanceCache ;
-    private GlobalInterceptors globalInterceptors;
-    public InterceptorBeanProcess(GlobalInterceptors interceptors){
+    private InterceptorContainer container;
 
-        this.interceptorChainCache = new ConcurrentHashMap<>();
-        this.interceptorInstanceCache = new ConcurrentHashMap<>();
-        this.globalInterceptors = interceptors;
-        interceptorInstanceCache.putAll(globalInterceptors.getOnController());
-        interceptorInstanceCache.putAll(globalInterceptors.getOnService());
+    public InterceptorBeanProcess(InterceptorContainer container) {
+        this.container = container;
     }
 
     @Override
@@ -34,18 +22,17 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
 
         Class<?> clazz = beanWrapper.getClazz();
         Method[] methods = clazz.getDeclaredMethods();
-        MethodCallback methodCallback = new MethodCallback(interceptorChainCache);
+
         boolean needProxy = false;
         for(Method method:methods){
-
-            Interceptor[] interceptors = interceptorChainCache.get(method);
+            Interceptor[] interceptors = container.getInterceptorChain(method);
             if( interceptors==null ){//如果未缓存 则先进行缓存
                 interceptors = getInterceptors(clazz,method);
                 if(interceptors.length<1){
                     continue;
                 }
                 needProxy = true;
-                interceptorChainCache.put(method,interceptors);
+                container.cacheInterceptorChain(method,interceptors);
             }else{
                 needProxy = true;
             }
@@ -54,6 +41,7 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
         if(!needProxy){
             return;
         }
+        MethodCallback methodCallback = new MethodCallback(container.getInterceptorChainCache());
         Object instance = Enhancer.create(clazz,methodCallback);
         beanWrapper.setInstance(instance);
 
@@ -61,11 +49,11 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
 
     private Interceptor[] getInterceptors(Class clazz , Method method){
 
-        MethodAnnotationScanner scanner = new MethodAnnotationScanner(clazz,method,globalInterceptors);
+        MethodAnnotationScanner scanner = new MethodAnnotationScanner(clazz,method,container.getGlobalInterceptors());
         List<Class<? extends Interceptor>> interceptorClass =  scanner.scanInterceptor();
         Interceptor[] interceptors = new Interceptor[interceptorClass.size()];
         for(int i=0;i<interceptors.length;i++){
-            Interceptor interceptor = interceptorInstanceCache.get(interceptorClass.get(i));
+            Interceptor interceptor = container.getInterceptor(interceptorClass.get(i));
             if(interceptor==null){
                try {
                    interceptor = (Interceptor) ReflectionKit.getObject(interceptorClass.get(i));
@@ -73,7 +61,7 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
                    System.out.println("get instance of interceptor :" + interceptorClass.getClass().getName()+" error!");
                    e.printStackTrace();
                }
-               interceptorInstanceCache.put(interceptor.getClass(),interceptor);
+               container.cacheIntercepotorInstance(interceptor.getClass(),interceptor);
             }
             interceptors[i] = interceptor;
         }

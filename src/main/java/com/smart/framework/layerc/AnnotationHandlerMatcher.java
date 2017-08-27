@@ -1,10 +1,12 @@
 package com.smart.framework.layerc;
 
+import com.smart.framework.annotation.RequestType;
 import com.smart.framework.exception.MultiHandlerException;
 import com.smart.framework.exception.NoSuchHandlerException;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Handler;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -18,8 +20,20 @@ public class AnnotationHandlerMatcher implements RequestHandlerMatcher {
                                                     .collect(Collectors.toList());
         List<RequestHandler> allMatchItem = null;
 
+        //只有一种匹配结果的情况
         if(urlMatchItem.size()==1){
-            return urlMatchItem.get(0);
+            RequestHandler one = urlMatchItem.get(0);
+            if(one.getRequestMethod().equals(RequestType.DEFAULT)){//如果未声明请求方式，则可匹配所有方式
+                return urlMatchItem.get(0);
+            }else{//或者必须匹配声明的请求方式
+                if(one.getRequestMethod().equals(method)){
+                    return one;
+                }else {
+                    throw new NoSuchHandlerException(requestUrl,method);
+                }
+
+            }
+
         }else if(urlMatchItem.size()==0){
             throw new NoSuchHandlerException(requestUrl,method);
         }else if(urlMatchItem.size()>1){ //如果不只一个匹配 则继续寻找方法匹配
