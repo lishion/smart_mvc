@@ -7,6 +7,4 @@
             <param-name>smartConfig</param-name>
             <param-value>com.test.Config</param-value>
         </context-param>
-
-
 </web-app>

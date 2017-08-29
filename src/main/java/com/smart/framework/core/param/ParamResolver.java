@@ -1,8 +1,8 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.param;
 
+import com.smart.framework.core.request.RequestWrapper;
 import com.smart.framework.layerm.ConverterFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Parameter;
 
 public interface ParamResolver {

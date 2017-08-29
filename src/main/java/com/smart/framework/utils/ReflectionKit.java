@@ -26,7 +26,7 @@ public class ReflectionKit {
         if(clazz == null){
             return null;
         }
-        if( Modifier.isAbstract( clazz.getModifiers() ) || Modifier.isInterface( clazz.getModifiers() ) ){
+        if( !canGetInstance(clazz) ){
             return null;
         }
         try {
@@ -36,6 +36,9 @@ public class ReflectionKit {
             throw new GetInstanceException("get instance for class:"+clazz.getName()+"error!");
         }
 
+    }
+    public static boolean canGetInstance(Class<?> clazz){
+        return !(Modifier.isAbstract( clazz.getModifiers() ) || Modifier.isInterface( clazz.getModifiers()));
     }
 
     /**

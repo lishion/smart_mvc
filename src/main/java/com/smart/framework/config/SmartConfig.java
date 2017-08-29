@@ -1,7 +1,6 @@
 package com.smart.framework.config;
 
 import com.smart.framework.aop.GlobalInterceptors;
-import com.smart.framework.aop.Interceptor;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,9 @@ public interface SmartConfig {
     void setDevMode(DevMode dev);
     void addAssets(List<String> postFix);
     void addInterceptor(GlobalInterceptors i);
+    void setServerType(ServeTypeItem type);
+    void setEncoding(Encoding e);
+
 
 
 }

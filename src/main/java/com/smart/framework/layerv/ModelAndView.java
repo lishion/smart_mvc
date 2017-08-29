@@ -17,15 +17,17 @@ public class ModelAndView {
     public ModelAndView(){
 
     }
-    public void setView(String url){
+    public ModelAndView setView(String url){
         this.url = url;
+        return this;
     }
-    public void putData(String k,Object v){
+    public ModelAndView putData(String k,Object v){
 
         if(dataMap == null){
             dataMap = new HashMap<>();
         }
         dataMap.put(k,v);
+        return this;
     }
 
     public String getUrl() {

@@ -1,4 +1,4 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.request;
 
 import com.smart.framework.bean.SmartBean;
 import com.smart.framework.core.FrameContext;

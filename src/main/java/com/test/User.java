@@ -10,8 +10,11 @@ import static com.smart.framework.annotation.BeanType.Model;
  */
 @Bean(BeanType.Model)
 public class User {
+
     private String name;
     private String sex;
+    private int age;
+
 
     @Override
     public String toString() {
@@ -46,5 +49,5 @@ public class User {
         this.age = age;
     }
 
-    private int age;
+
 }

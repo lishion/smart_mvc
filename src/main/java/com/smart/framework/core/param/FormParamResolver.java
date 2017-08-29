@@ -1,15 +1,15 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.param;
 
 import com.smart.framework.annotation.BeanType;
 import com.smart.framework.annotation.Var;
 import com.smart.framework.exception.GetInstanceException;
 import com.smart.framework.exception.SetFieldException;
+import com.smart.framework.core.request.RequestWrapper;
 import com.smart.framework.layerm.ConverterFactory;
 import com.smart.framework.layerm.StringConverter;
 import com.smart.framework.utils.Constants;
 import com.smart.framework.utils.ReflectionKit;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 

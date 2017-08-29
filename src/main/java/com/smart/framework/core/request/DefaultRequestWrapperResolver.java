@@ -1,7 +1,4 @@
-package com.smart.framework.layerc;
-
-import com.oreilly.servlet.MultipartFilter;
-import com.oreilly.servlet.MultipartRequest;
+package com.smart.framework.core.request;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -12,18 +9,18 @@ import java.util.Map;
 /**
  * Created by Lishion on 2017/8/28.
  */
-public abstract class DefaultRequestWrapperResolver implements RequestWrapperResolver {
+public class DefaultRequestWrapperResolver implements RequestWrapperResolver {
 
 
      protected Map<String,String> paramMap = new HashMap<>();
-     protected List<MultiPartFile> fileList = new LinkedList<>();
+     protected List<MultipartFile> fileList = new LinkedList<>();
      protected String path ;
      protected String method ;
      protected HttpServletRequest request ;
 
      //you have to call super.resolve() when you override the method!!!
      @Override
-     public RequestWrapperResolver resolve(HttpServletRequest request){
+     public RequestWrapperResolver resolve(HttpServletRequest request) throws Exception {
           this.path = getRequestUrl(request);
           this.method = request.getMethod();
           this.request = request;

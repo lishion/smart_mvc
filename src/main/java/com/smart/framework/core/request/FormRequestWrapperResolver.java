@@ -6,9 +6,9 @@ import java.util.Enumeration;
 /**
  * Created by Lishion on 2017/8/28.
  */
-public class FormRequestWrapper extends DefaultRequestWrapperResolver {
+public class FormRequestWrapperResolver extends DefaultRequestWrapperResolver {
     @Override
-    public RequestWrapperResolver resolve(HttpServletRequest request) {
+    public RequestWrapperResolver resolve(HttpServletRequest request) throws Exception {
         super.resolve(request);
         Enumeration<String> enumeration = request.getParameterNames();
         while (enumeration.hasMoreElements()) {

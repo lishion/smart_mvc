@@ -1,7 +1,6 @@
 package com.smart.framework.core;
 
 import com.smart.framework.annotation.BeanType;
-import com.smart.framework.aop.GlobalInterceptors;
 import com.smart.framework.aop.InterceptorBeanProcess;
 import com.smart.framework.aop.InterceptorContainer;
 import com.smart.framework.bean.*;
@@ -10,8 +9,8 @@ import com.smart.framework.config.Theme;
 import com.smart.framework.exception.GetBeanException;
 import com.smart.framework.exception.GetInstanceException;
 import com.smart.framework.config.SmartConfig;
-import com.smart.framework.layerc.RequestHandler;
-import com.smart.framework.layerc.RequestHandlers;
+import com.smart.framework.core.request.RequestHandler;
+import com.smart.framework.core.request.RequestHandlers;
 import com.smart.framework.layerm.StringConverters;
 import com.smart.framework.utils.ClassKit;
 import com.smart.framework.utils.ReflectionKit;
@@ -48,7 +47,7 @@ public class FrameContext {
                 Set<Class<?>> classes = ClassKit.getProjectClass();
 
                 for(Class<?> clazz:classes){
-                    if(clazz.isAssignableFrom(SmartConfig.class)){
+                    if(SmartConfig.class.isAssignableFrom(clazz)&&ReflectionKit.canGetInstance(clazz)){
                         smartConfig = (SmartConfig) ReflectionKit.getObject(clazz);
                         break;
                     }
@@ -62,11 +61,8 @@ public class FrameContext {
                                 .config();
                 }
 
-
                 InterceptorBeanProcess beanProcess = new InterceptorBeanProcess(interceptorContainer);
                 beanFactory.registePreCallback(beanProcess);
-
-
                 for(Class<?> clazz:classes){
                     beanFactory.cacheBeans(clazz);
                     if(BeanType.isBean(clazz)){
@@ -74,7 +70,6 @@ public class FrameContext {
                     }
                 }
                 requestHandlers.cacheMap(beanFactory);
-
         }catch (IOException e){
             e.printStackTrace();
 

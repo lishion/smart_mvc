@@ -1,11 +1,12 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.param;
 
-import com.smart.framework.annotation.BeanType;
+import com.smart.framework.core.param.ParamResolver;
+import com.smart.framework.core.param.ParamWrapper;
+import com.smart.framework.core.request.RequestWrapper;
 import com.smart.framework.layerm.ConverterFactory;
 import com.smart.framework.layerv.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
 import java.lang.reflect.Parameter;
 
 /**

@@ -1,7 +1,9 @@
 package com.test;
 
-import com.smart.framework.annotation.Bean;
-import com.smart.framework.annotation.BeanType;
+import com.smart.framework.core.request.MultipartFile;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Lishion on 2017/7/29.
@@ -9,7 +11,9 @@ import com.smart.framework.annotation.BeanType;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-         
+        MultipartFile[] files = new MultipartFile[5];
+        List<String> filess = new LinkedList<>();
+        System.out.println(files instanceof MultipartFile[]);
 
     }
 }

@@ -1,30 +1,34 @@
-package com.smart.framework.core.param;
+package com.smart.framework.core.request;
 
+import com.oreilly.servlet.multipart.FilePart;
 import org.apache.commons.fileupload.FileItem;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Lishion on 2017/8/28.
  */
 public class MultipartFile {
-    private FileItem fileItem;
+    private FilePart fileItem;
     private String fieldName;
-    public MultipartFile(FileItem fileItem) {
+    public MultipartFile(FilePart fileItem) {
         this.fileItem = fileItem;
-        fieldName = fileItem.getFieldName();
+        fieldName = fileItem.getName();
     }
 
-    public void toFile(File file) throws Exception {
+    public void writeTo(File file) throws IOException {
 
-        fileItem.write(file);
-        deleteTempFlie();
+        fileItem.writeTo(file);
+
     }
-    private void deleteTempFlie(){
-        fileItem.delete();
+    public void writeTo(OutputStream os) throws IOException {
+        fileItem.writeTo(os);
     }
+
+
     public String getFileName(){
         return fileItem.getName();
     }

@@ -1,8 +1,7 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.param;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ParamResolverFactory {

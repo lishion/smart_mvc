@@ -1,4 +1,4 @@
-package com.smart.framework.layerc;
+package com.smart.framework.core.request;
 
 import com.smart.framework.annotation.BeanType;
 import com.smart.framework.annotation.Route;
@@ -6,9 +6,7 @@ import com.smart.framework.bean.BeanFactory;
 import com.smart.framework.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Lishion on 2017/7/21.

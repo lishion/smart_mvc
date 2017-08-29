@@ -8,25 +8,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>${END}</title>
+    <title>${key}</title>
   </head>
   <body>
-  <form method="get" action="test" >
+  <%--<form method="post" action="file"  enctype="multipart/form-data">
       <input type="text" name="x">
-      <input type="text" name="user.name">
+    &lt;%&ndash;  <input type="text" name="user.name">
       <input type="text" name="user.sex">
-      <input type="text" name="user.age">
+      <input type="text" name="user.age">&ndash;%&gt;
+      <input type="file" name="file">
+      <input type="file" name="file">
       <input type="submit" >
-  </form>
+  </form>--%>
+  ${key}
   </body>
 <script src="../asset/js/jquery-1.11.2.min.js"></script>
 <script>
-   $.ajax({
-       url:"world",
-       dataType:"json",
-       success:function (x) {
 
-       }
-   })
 </script>
 </html>

@@ -16,7 +16,8 @@ public class Theme implements ConfigData{
     private NotFindPage notFindPage;
     private DevMode devMode;
     private List<String> assets;
-
+    private ServeTypeItem serverType ;
+    private Encoding encoding;
     public NotFindPage getNotFindPage() {
         return notFindPage;
     }
@@ -28,12 +29,19 @@ public class Theme implements ConfigData{
     public List<String> getAssets() {
         return assets;
     }
+    public String getEncoding(){
+        return encoding.get();
+    }
+    public ServerType getServerType() {
+        return serverType.get();
+    }
 
     public Theme(){
         notFindPage = new NotFindPage();
-
         devMode = new DevMode();
         assets = new ArrayList<>();
+        serverType = new ServeTypeItem();
+        encoding = new Encoding();
     }
 
 
@@ -42,5 +50,7 @@ public class Theme implements ConfigData{
         smartConfig.setNotFindPage(notFindPage);
         smartConfig.setDevMode(devMode);
         smartConfig.addAssets(assets);
+        smartConfig.setServerType(serverType);
+        smartConfig.setEncoding(encoding);
     }
 }

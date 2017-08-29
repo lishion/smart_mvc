@@ -1,9 +1,6 @@
-package com.smart.framework.layerc;
-
-import org.apache.commons.fileupload.FileItem;
+package com.smart.framework.core.request;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class RequestWrapper {
 
-    public RequestWrapper(Map<String, String> formDataMap, List<MultiPartFile> fileItems, HttpServletRequest request, String requestPath, String requestMethod) {
+    public RequestWrapper(Map<String, String> formDataMap, List<MultipartFile> fileItems, HttpServletRequest request, String requestPath, String requestMethod) {
         this.formDataMap = formDataMap;
         this.fileItems = fileItems;
         this.requestPath = requestPath;
@@ -21,7 +18,7 @@ public class RequestWrapper {
     }
 
     private Map<String,String> formDataMap ;
-    private List<MultiPartFile> fileItems ;
+    private List<MultipartFile> fileItems ;
     private String requestPath;
     private String requestMethod;
     private HttpServletRequest request;
@@ -31,7 +28,7 @@ public class RequestWrapper {
         return formDataMap;
     }
 
-    public List<MultiPartFile> getFileItems() {
+    public List<MultipartFile> getFileItems() {
         return fileItems;
     }
 
@@ -51,15 +48,17 @@ public class RequestWrapper {
     }
 
 
-    public MultiPartFile[] getFileArray(String name){
-        return (MultiPartFile[])fileItems.stream()
-                .filter(multiPartFile -> multiPartFile.getFileName().equals(name))
-                .toArray();
+    public MultipartFile[] getFileArray(String name){
+
+         List<MultipartFile> files = getFileList(name);
+         MultipartFile[] multipartFiles = new MultipartFile[files.size()];
+         files.toArray(multipartFiles);
+         return multipartFiles;
     }
 
-    public List<MultiPartFile> getFileList(String name){
+    public List<MultipartFile> getFileList(String name){
         return   fileItems.stream()
-                .filter(multiPartFile -> multiPartFile.getFileName().equals(name))
+                .filter(multiPartFile -> multiPartFile.getFieldName().equals(name))
                 .collect(Collectors.toList());
     }
 }
