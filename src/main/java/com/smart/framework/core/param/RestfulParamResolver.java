@@ -15,12 +15,12 @@ public class RestfulParamResolver implements ParamResolver {
     }
 
     @Override
-    public Object resolve(ParamWrapper paramWrapper, HttpServletRequest request, ConverterFactory factory) {
+    public Object resolve(ParamWrapper paramWrapper, RequestWrapper requestWrapper, ConverterFactory factory) {
         Class<?> paramClazz = paramWrapper.getParameter().getType();
         Class<?> methodClazz = paramWrapper.getMethodClazz();
         Route route = paramWrapper.getMethod().getDeclaredAnnotation(Route.class);
         if(route==null)return null;
-        String requestUrl = paramWrapper.getRequestUrl();
+        String requestUrl = requestWrapper.getRequestPath();
         String pattern =  "(\\S+?\\{\\S+?}\\S*)+?";
         if(!requestUrl.matches(pattern)){
             return null;

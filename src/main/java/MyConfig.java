@@ -1,10 +1,7 @@
 package com.test;
 
 import com.smart.framework.aop.GlobalInterceptors;
-import com.smart.framework.aop.Interceptor;
-import com.smart.framework.config.DevMode;
-import com.smart.framework.config.NotFindPage;
-import com.smart.framework.config.SmartConfig;
+import com.smart.framework.config.*;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +14,7 @@ public class MyConfig  implements SmartConfig {
 
     @Override
     public void setNotFindPage(NotFindPage page) {
-
+        page.set("page/not_find.html");
     }
 
     @Override
@@ -27,7 +24,7 @@ public class MyConfig  implements SmartConfig {
 
     @Override
     public void setDevMode(DevMode dev) {
-
+        dev.set(true);
     }
 
     @Override
@@ -37,6 +34,13 @@ public class MyConfig  implements SmartConfig {
 
     @Override
     public void addInterceptor(GlobalInterceptors i) {
-
+        i.setOnController(new Inter());
     }
+
+    @Override
+    public void setServerType(ServeTypeItem type) {
+        type.set(ServerType.JETTY);
+    }
+
+
 }

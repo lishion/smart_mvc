@@ -7,8 +7,6 @@ import java.lang.reflect.Parameter;
 public class ParamWrapper {
 
     private Parameter parameter;
-    private String requestUrl;
-    private String requestMethod;
     private Method method;
 
     public Method getMethod() {
@@ -38,27 +36,14 @@ public class ParamWrapper {
         this.methodClazz = methodClazz;
     }
 
-    public String getRequestUrl() {
-        return requestUrl;
-    }
-
-    public void setRequestUrl(String requestUrl) {
-        this.requestUrl = requestUrl;
-    }
-
-    public String getRequestMethod() {
-        return requestMethod;
-    }
-
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod;
-    }
     public <T extends Annotation>  T getParamAnnotation(Class<T > clazz){
         return parameter.getAnnotation(clazz);
     }
+
     public <T extends  Annotation> T getTypeAnnotation(Class<T > clazz){
         return parameter.getType().getAnnotation(clazz);
     }
+
     public <T extends Annotation> T getMethodAnnotation(Class<T > clazz){
         return method.getAnnotation(clazz);
     }

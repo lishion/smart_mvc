@@ -37,29 +37,27 @@ public class FormParamResolver implements ParamResolver {
     }
 
     @Override
-    public Object resolve(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory) {
+    public Object resolve(ParamWrapper parameter, RequestWrapper requestWrapper, ConverterFactory factory) {
         if(isVar(parameter)&&!isModel(parameter)){
-            return resolveSimpleType(parameter,request,factory);
+            return resolveSimpleType(parameter,requestWrapper,factory);
         }else if(isModel(parameter)){
-            return resolveModel(parameter,request,factory);
+            return resolveModel(parameter,requestWrapper,factory);
         }
         return null;
     }
 
 
 
-
-
-    private Object resolveSimpleType(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory) {
+    private Object resolveSimpleType(ParamWrapper parameter, RequestWrapper requestWrapper, ConverterFactory factory) {
         StringConverter stringConverter = (StringConverter) factory.get(parameter.getType());
         if(stringConverter==null){
            return null;
         }
-        return stringConverter.convert(request.getParameter(parameter.getParamAnnotation(Var.class).value()));
+        return stringConverter.convert(requestWrapper.getParam(parameter.getParamAnnotation(Var.class).value()));
     }
 
 
-    private Object resolveModel(ParamWrapper parameter, HttpServletRequest request, ConverterFactory factory){
+    private Object resolveModel(ParamWrapper parameter, RequestWrapper requestWrapper, ConverterFactory factory){
 
         Class<?> clazz = parameter.getType();
         Field[] fields = clazz.getDeclaredFields();
@@ -71,7 +69,7 @@ public class FormParamResolver implements ParamResolver {
                 StringConverter stringConverter = (StringConverter) factory.get(field.getType());
                 Object value = null;
                 if (stringConverter != null) {
-                    value = stringConverter.convert(request.getParameter(prefix+field.getName()));
+                    value = stringConverter.convert(requestWrapper.getParam(prefix+field.getName()));
                 }
                 ReflectionKit.setFiled(paramInstance, field, value);
             }

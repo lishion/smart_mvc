@@ -7,5 +7,5 @@ import java.lang.reflect.Parameter;
 
 public interface ParamResolver {
     boolean can(Parameter parameter);
-    Object resolve(ParamWrapper paramWrapper, HttpServletRequest request , ConverterFactory factory);
+    Object resolve(ParamWrapper paramWrapper, RequestWrapper requestWrapper , ConverterFactory factory) throws Exception;
 }
