@@ -36,7 +36,6 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
             }else{
                 needProxy = true;
             }
-
         }
         if(!needProxy){
             return;
@@ -60,6 +59,7 @@ public class InterceptorBeanProcess implements BeanProcessPreCallback {
                }catch (GetInstanceException e){
                    System.out.println("get instance of interceptor :" + interceptorClass.getClass().getName()+" error!");
                    e.printStackTrace();
+                   continue;
                }
                container.cacheIntercepotorInstance(interceptor.getClass(),interceptor);
             }

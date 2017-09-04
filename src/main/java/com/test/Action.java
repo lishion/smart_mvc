@@ -41,7 +41,13 @@ public class Action {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    @Route(value = "/user")
+    public User file(@JsonVar User user){
+
+        return user;
+    }
+
 
 }

@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
  */
 public class RequestWrapper {
 
-    public RequestWrapper(Map<String, String> formDataMap, List<MultipartFile> fileItems, HttpServletRequest request, String requestPath, String requestMethod) {
+    public RequestWrapper(Map<String, String> formDataMap,Map<String,String> pathDataMap, List<MultipartFile> fileItems, HttpServletRequest request, String requestPath, String requestMethod) {
         this.formDataMap = formDataMap;
+        this.pathDataMap = pathDataMap;
         this.fileItems = fileItems;
         this.requestPath = requestPath;
         this.requestMethod = requestMethod;
@@ -18,6 +19,7 @@ public class RequestWrapper {
     }
 
     private Map<String,String> formDataMap ;
+    private Map<String,String> pathDataMap;
     private List<MultipartFile> fileItems ;
     private String requestPath;
     private String requestMethod;

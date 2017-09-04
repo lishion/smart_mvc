@@ -13,6 +13,7 @@ public class DefaultRequestWrapperResolver implements RequestWrapperResolver {
 
 
      protected Map<String,String> paramMap = new HashMap<>();
+     protected Map<String,String> pathMap = new HashMap<>();
      protected List<MultipartFile> fileList = new LinkedList<>();
      protected String path ;
      protected String method ;
@@ -29,7 +30,7 @@ public class DefaultRequestWrapperResolver implements RequestWrapperResolver {
 
      @Override
      public final RequestWrapper build(){
-          return new RequestWrapper(paramMap,fileList,request,path,method);
+          return new RequestWrapper(paramMap,pathMap,fileList,request,path,method);
      }
 
      private String getRequestUrl(HttpServletRequest request){
@@ -39,4 +40,9 @@ public class DefaultRequestWrapperResolver implements RequestWrapperResolver {
           String requestUrl =  request.getRequestURL().toString();
           return requestUrl.substring(requestUrl.indexOf(prefix)+prefix.length(),requestUrl.length());
      }
+
+     private void resolvePathVariable(){
+
+     }
+
 }

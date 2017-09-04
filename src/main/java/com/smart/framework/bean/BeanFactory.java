@@ -30,7 +30,7 @@ public class BeanFactory implements IBeanFactory {
         return beans;
     }
 
-    public void registePreCallback(BeanProcessPreCallback preCallback){
+    public void registerPreCallback(BeanProcessPreCallback preCallback){
            preCallbacks.add(preCallback);
     }
 

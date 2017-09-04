@@ -14,6 +14,7 @@ import com.smart.framework.core.request.RequestHandlers;
 import com.smart.framework.layerm.StringConverters;
 import com.smart.framework.utils.ClassKit;
 import com.smart.framework.utils.ReflectionKit;
+import com.sun.org.apache.regexp.internal.RE;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ import java.util.Set;
 /**
  * Created by Lishion on 2017/7/23.
  */
-public class FrameContext {
+public final class FrameContext {
 
 
     private ThreadLocal<HttpServletRequest> request;
@@ -39,7 +40,11 @@ public class FrameContext {
     private StringConverters converters = new StringConverters();
     private InterceptorContainer interceptorContainer = new InterceptorContainer();
     private Theme theme = new Theme();
+    private final static FrameContext instance = new FrameContext();
 
+    public static FrameContext  getInstance(){
+        return instance;
+    }
 
     public void run(){
         try {
@@ -62,7 +67,7 @@ public class FrameContext {
                 }
 
                 InterceptorBeanProcess beanProcess = new InterceptorBeanProcess(interceptorContainer);
-                beanFactory.registePreCallback(beanProcess);
+                beanFactory.registerPreCallback(beanProcess);
                 for(Class<?> clazz:classes){
                     beanFactory.cacheBeans(clazz);
                     if(BeanType.isBean(clazz)){

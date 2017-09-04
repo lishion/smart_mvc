@@ -4,16 +4,9 @@ import com.oreilly.servlet.multipart.FilePart;
 import com.oreilly.servlet.multipart.MultipartParser;
 import com.oreilly.servlet.multipart.ParamPart;
 import com.oreilly.servlet.multipart.Part;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Lishion on 2017/8/28.
@@ -28,7 +21,7 @@ public class MultipartRequestWrapperResolver extends DefaultRequestWrapperResolv
             Part part = multipartParser.readNextPart();
             while (part!=null){
                 if(part.isParam()){
-                    this.paramMap.put(((ParamPart)part).getName(),((ParamPart)part).getStringValue());
+                    this.paramMap.put(part.getName(),((ParamPart)part).getStringValue());
                 }else{
                     this.fileList.add(new MultipartFile((FilePart)part));
                 }

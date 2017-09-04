@@ -1,6 +1,7 @@
 package com.smart.framework.core.param;
 
 import com.smart.framework.annotation.BeanType;
+import com.smart.framework.annotation.JsonVar;
 import com.smart.framework.annotation.Var;
 import com.smart.framework.exception.GetInstanceException;
 import com.smart.framework.exception.SetFieldException;
@@ -23,7 +24,7 @@ public class FormParamResolver implements ParamResolver {
     public boolean can(Parameter parameter) {
         if(parameter.isAnnotationPresent(Var.class)){
             return true;
-        }else if(BeanType.isModel(parameter.getType())){
+        }else if(BeanType.isModel(parameter.getType())&&!parameter.isAnnotationPresent(JsonVar.class)){
             return true;
         }
         return false;

@@ -11,6 +11,7 @@ public class GlobalInterceptors {
         this.onController = new HashMap<>(4);
         this.onService = new HashMap<>(4);
     }
+
     public void setOnController(Interceptor interceptor){
           onController.put(interceptor.getClass(),interceptor);
     }

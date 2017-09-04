@@ -11,9 +11,10 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        MultipartFile[] files = new MultipartFile[5];
-        List<String> filess = new LinkedList<>();
-        System.out.println(files instanceof MultipartFile[]);
+        String s  = "/a/{ab}/{cd}";//模板
+        String s1 = "/a/1/2";//输入字符串
+        // ab = 1,cd = 2// 输出结果
+
 
     }
 }
